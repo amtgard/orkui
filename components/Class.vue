@@ -21,46 +21,44 @@
 import Players from '../services/api/player'
 export default {
   props: ['player'],
-  data () {
+  data() {
     return {
       classes: []
     }
   },
   methods: {
-    getLevel (skill) {
+    getLevel(skill) {
       let weeks = skill.Credits
       switch (true) {
-        case (weeks < 5):
+        case weeks < 5:
           return 1
-        case (weeks >= 5 && weeks < 12):
+        case weeks >= 5 && weeks < 12:
           return 2
-        case (weeks >= 12 && weeks < 21):
+        case weeks >= 12 && weeks < 21:
           return 3
-        case (weeks >= 21 && weeks < 34):
+        case weeks >= 21 && weeks < 34:
           return 4
-        case (weeks >= 34 && weeks < 53):
+        case weeks >= 34 && weeks < 53:
           return 5
-        case (weeks >= 53):
+        case weeks >= 53:
           return 6
       }
     },
-    getClasses () {
-      Players.getClasses(this.player).then((resp) => {
+    getClasses() {
+      Players.getClasses(this.player).then(resp => {
         this.classes = resp.data.Classes
       })
     }
   },
-  mounted () {
+  mounted() {
     this.getClasses()
   },
   watch: {
-    player () {
+    player() {
       this.getClasses()
     }
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

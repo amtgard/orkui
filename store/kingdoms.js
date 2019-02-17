@@ -2,9 +2,11 @@ import Kingdoms from '~/services/api/kingdom'
 import PubSub from 'pubsub-js'
 import Collection from 'lodash/collection'
 
-const state = {
-  kingdoms: [],
-  activeKingdom: null
+const state = () => {
+  return {
+    kingdoms: [],
+    activeKingdom: null
+  }
 }
 
 const getters = {

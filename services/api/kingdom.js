@@ -1,8 +1,6 @@
-import {
-  request
-} from './settings'
+import { request } from './settings'
 export default {
-  fetch () {
+  fetch() {
     return request({
       params: {
         call: 'Kingdom/GetKingdoms',
@@ -10,7 +8,7 @@ export default {
       }
     })
   },
-  detail (id) {
+  detail(id) {
     return request({
       params: {
         request: {

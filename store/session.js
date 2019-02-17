@@ -1,11 +1,13 @@
-import auth from '../../services/api/authentication'
+import auth from '~/services/api/authentication'
 import PubSub from 'pubsub-js'
 
-const state = {
-  token: null,
-  user: {},
-  timeout: null,
-  authorizations: []
+const state = () => {
+  return {
+    token: null,
+    user: {},
+    timeout: null,
+    authorizations: []
+  }
 }
 
 const getters = {

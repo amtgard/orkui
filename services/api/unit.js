@@ -1,9 +1,7 @@
-import {
-  request
-} from './settings'
+import { request } from './settings'
 import Store from '../../store'
 export default {
-  fetch (unitId) {
+  fetch(unitId) {
     return request({
       method: 'get',
       params: {
@@ -14,7 +12,7 @@ export default {
       }
     })
   },
-  addMember (unit, player) {
+  addMember(unit, player) {
     return request({
       call: 'Unit/AddMember',
       request: {

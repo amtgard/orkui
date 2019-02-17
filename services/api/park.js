@@ -1,11 +1,9 @@
-import {
-  request
-} from './settings'
+import { request } from './settings'
 // import PubSub from 'pubsub-js'
 import moment from 'moment'
 import _ from 'lodash'
 export default {
-  getParkShort (id) {
+  getParkShort(id) {
     return request({
       params: {
         call: 'Park/GetParkShortInfo',
@@ -15,7 +13,7 @@ export default {
       }
     })
   },
-  getPark (id) {
+  getPark(id) {
     return request({
       params: {
         call: 'Park/GetParkDetails',
@@ -25,7 +23,7 @@ export default {
       }
     })
   },
-  getOfficers (park) {
+  getOfficers(park) {
     return request({
       params: {
         call: 'Park/GetOfficers',
@@ -35,7 +33,7 @@ export default {
       }
     })
   },
-  getActivePlayers (park, params) {
+  getActivePlayers(park, params) {
     if (!params) {
       params = {}
     }
@@ -47,7 +45,7 @@ export default {
       }
     })
   },
-  getPlayers (park, token) {
+  getPlayers(park, token) {
     if (!park || !park.ParkId) {
       console.error('Invalid park passed', park)
     }
@@ -62,7 +60,7 @@ export default {
       }
     })
   },
-  deleteAttendance (token, entryId) {
+  deleteAttendance(token, entryId) {
     return request({
       params: {
         call: 'Attendance/RemoveAttendance',
@@ -73,7 +71,7 @@ export default {
       }
     })
   },
-  addAttendance (token, date, classId, park, kingdom, credits, player) {
+  addAttendance(token, date, classId, park, kingdom, credits, player) {
     let data = new FormData()
     data.append('call', 'Attendance/AddAttendance')
     data.append('request[Token]', token)
@@ -93,7 +91,7 @@ export default {
       data: data
     })
   },
-  getAttendance (park, date) {
+  getAttendance(park, date) {
     if (!park) {
       console.error('Invalid Park', park)
       return
@@ -102,13 +100,13 @@ export default {
       params: {
         call: 'Report/AttendanceForDate',
         request: {
-          'Date': date,
+          Date: date,
           ParkId: park.ParkId
         }
       }
     })
   },
-  getAttendanceDates (park, weeks, start) {
+  getAttendanceDates(park, weeks, start) {
     let date = moment().format('Y-MM-DD')
     return request({
       params: {
@@ -117,12 +115,12 @@ export default {
           ParkId: park.ParkId,
           PerWeeks: 1,
           Periods: weeks,
-          ReportFromDate: (start) ? start : date
+          ReportFromDate: start ? start : date
         }
       }
     })
   },
-  getUniques (park, start, end) {
+  getUniques(park, start, end) {
     start = moment(start)
     end = moment(end)
     let weeks = end.diff(start, 'week')
@@ -156,7 +154,7 @@ export default {
         let playerCount = 0
         let uniquePlayerCount = 0
         for (let i in dates) {
-          this.getAttendance (park, dates[i]).then(resp => {
+          this.getAttendance(park, dates[i]).then(resp => {
             for (let p in resp.data.Attendance) {
               let log = resp.data.Attendance[p]
               if (!players.hasOwnProperty(log.MundaneId)) {
@@ -186,7 +184,7 @@ export default {
     })
     return report
   },
-  getRoster (park, token) {
+  getRoster(park, token) {
     console.log('sending request')
     return request({
       params: {
@@ -199,7 +197,7 @@ export default {
       }
     })
   },
-  getParks (kingdom) {
+  getParks(kingdom) {
     let params = {
       call: 'Kingdom/GetParks',
       request: {}
@@ -211,12 +209,12 @@ export default {
       params: params
     })
   },
-  getClasses () {
+  getClasses() {
     return request({
       params: {
         call: 'Attendance/GetClasses',
         request: {
-          'Active': 1
+          Active: 1
         }
       }
     })

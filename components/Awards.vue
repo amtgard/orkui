@@ -8,7 +8,10 @@
       </thead>
       <tbody>
         <tr v-for="award in awards">
-          <td :title="award.Note">{{ (award.IsLadder) ? setOrder(award.Rank) : ''}} {{ award.KingdomAwardName }}</td>
+          <td :title="award.Note">
+            {{ award.IsLadder ? setOrder(award.Rank) : '' }}
+            {{ award.KingdomAwardName }}
+          </td>
           <td :title="award.EventName">{{ formatDate(award.Date) }}</td>
           <td>{{ award.GivenBy }}</td>
         </tr>
@@ -23,24 +26,24 @@ import moment from 'moment'
 import Collection from 'lodash/collection'
 export default {
   props: ['user'],
-  data () {
+  data() {
     return {
       awards: []
     }
   },
   computed: {
-    byDate () {
+    byDate() {
       return Collection.sortBy(this.awards, ['Date'])
     },
-    byAward () {
+    byAward() {
       return Collection.sortBy(this.awards, ['KingdomAwardName', 'Date'])
     },
-    byGrant () {
+    byGrant() {
       return Collection.sortBy(this.awards, ['GivenById', 'Date'])
     }
   },
   methods: {
-    sortAwards (by) {
+    sortAwards(by) {
       switch (by) {
         case 'date':
           this.awards = this.byDate
@@ -53,16 +56,16 @@ export default {
           break
       }
     },
-    getAwards () {
+    getAwards() {
       Players.getAwards(this.user).then(resp => {
         this.awards = resp.data.Awards
       })
     },
-    setOrder (rank) {
+    setOrder(rank) {
       if (!rank) {
         return ''
       }
-      let end = (rank.length > 1) ? rank.slice(-1) : rank
+      let end = rank.length > 1 ? rank.slice(-1) : rank
       switch (end) {
         case 1:
           return `${rank}st`
@@ -74,22 +77,20 @@ export default {
           return `${rank}th`
       }
     },
-    formatDate (date) {
+    formatDate(date) {
       date = moment(date)
       return date.format('M/D/Y')
     }
   },
   watch: {
-    user () {
+    user() {
       this.getAwards()
     }
   },
-  mounted () {
+  mounted() {
     this.getAwards()
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

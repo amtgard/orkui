@@ -10,25 +10,33 @@
             data-target="#gv-nav-links"
             aria-expanded="false"
           >
-            <span class="sr-only">
-              Toggle navigation
-            </span>
-            <span class="icon-bar" />
-            <span class="icon-bar" />
-            <span class="icon-bar" />
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
           </button>
-          <nuxt-link class="navbar-brand" to="/"><span>GV Events</span></nuxt-link>
+          <router-link class="navbar-brand" to="/"
+            ><span>GV Events</span></router-link
+          >
         </div>
-        <div id="gv-nav-links" class="collapse navbar-collapse">
+        <div class="collapse navbar-collapse" id="gv-nav-links">
           <ul class="nav navbar-nav">
             <li>
-              <nuxt-link to="/kingdoms">Kingdoms</nuxt-link>
+              <router-link to="/kingdoms">Kingdoms</router-link>
             </li>
             <li v-if="activeKingdom">
-              <nuxt-link :to="{ name: 'Parks', params: {kingdomId: activeKingdom.KingdomId}}">Parks</nuxt-link>
+              <router-link
+                :to="{
+                  name: 'Parks',
+                  params: { kingdomId: activeKingdom.KingdomId }
+                }"
+                >Parks</router-link
+              >
             </li>
             <li v-if="authenticated">
-              <nuxt-link to="/location/add"><span>Locations</span></nuxt-link>
+              <router-link to="/location/add"
+                ><span>Locations</span></router-link
+              >
             </li>
             <li class="dropdown">
               <a
@@ -39,26 +47,29 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Events <span class="caret" />
+                Events <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <nuxt-link v-if="authenticated" tag="li" to="/event/add">
+                <router-link v-if="authenticated" tag="li" to="/event/add">
                   <a>Add New</a>
-                </nuxt-link>
-                <nuxt-link tag="li" to="/events">
+                </router-link>
+                <router-link tag="li" to="/events">
                   <a>View All</a>
-                </nuxt-link>
+                </router-link>
                 <li role="separator" class="divider"></li>
-                <nuxt-link v-for="event in events" :key="event._id" tag="li" :to="{ name: 'event', params: {eventId: event._id} }">
+                <router-link
+                  v-for="event in events"
+                  :key="event._id"
+                  tag="li"
+                  :to="{ name: 'event', params: { eventId: event._id } }"
+                >
                   <a>{{ event.name }}</a>
-                </nuxt-link>
+                </router-link>
               </ul>
             </li>
           </ul>
           <ul class="nav navbar-right nav-divider">
-            <Auth class="navbar-right navbar-form">
-              ??
-            </Auth>
+            <Auth class="navbar-right navbar-form">??</Auth>
           </ul>
         </div>
       </div>
@@ -69,14 +80,10 @@
     </div>
     <footer>
       <div class="column1">
-        <a href="amtgard.com">
-          Amtgard
-        </a>
+        <a href="amtgard.com">Amtgard</a>
       </div>
       <div class="column2">
-        <a href="https://etherealvisions.us/">
-          Shawn Barratt
-        </a>
+        <a href="https://etherealvisions.us/">Shawn Barratt</a>
       </div>
       <div class="column3">
         <a href="https://git.etherealvisions.us/mathus13/gvevents">
@@ -88,16 +95,13 @@
 </template>
 
 <script>
+import { EventsTable } from '/collections/EventsTable'
 import Moment from 'moment'
 import PubSub from 'pubsub-js'
-import AuthComp from '~/components/Auth'
-import Alerts from '~/components/alerts'
+import AuthComp from './Auth'
+import Alerts from './alerts'
 import { mapGetters } from 'vuex'
 export default {
-  components: {
-    Alerts: Alerts,
-    Auth: AuthComp
-  },
   data() {
     return {
       events: []
@@ -108,22 +112,33 @@ export default {
       user: 'getUser',
       activeKingdom: 'activeKingdom'
     }),
-    authenticated () {
-      return (this.user.MundaneId) ? true : false
+    authenticated() {
+      return this.user.MundaneId ? true : false
+    }
+  },
+  meteor: {
+    events() {
+      return EventsTable.find({
+        date: {
+          $gte: Moment()
+            .subtract(14, 'days')
+            .format('YYYY-MM-DD')
+        }
+      })
     }
   },
   components: {
     Auth: AuthComp,
     Alerts: Alerts
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('load')
   }
 }
 </script>
 
 <style lang="scss">
-$icon-font-path: "~/node_modules/bootstrap-sass/assets/fonts/bootstrap/";
+$icon-font-path: '../../node_modules/bootstrap-sass/assets/fonts/bootstrap/';
 
 body {
   margin: 0;
@@ -286,6 +301,7 @@ footer a {
   .navitar {
     width: 50px !important;
   }
+  ,
   #gv-nav-links {
     font-size: 0.75rem;
     background-color: #f8f8f8;

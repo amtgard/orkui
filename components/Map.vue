@@ -1,7 +1,14 @@
 <template>
   <div>
     <gmap-map :center="center" :zoom="10" style="width: 100%; height: 300px">
-      <gmap-marker :key="index" v-for="(m, index) in markers" :position="m.position" :clickable="true" :draggable="true" @click="center=m.position"></gmap-marker>
+      <gmap-marker
+        :key="index"
+        v-for="(m, index) in markers"
+        :position="m.position"
+        :clickable="true"
+        :draggable="true"
+        @click="center = m.position"
+      ></gmap-marker>
     </gmap-map>
   </div>
 </template>
@@ -27,12 +34,14 @@ export default {
       }
     },
     markers() {
-      return [{
-        position: {
-          lat: this.geoData.location.lat,
-          lng: this.geoData.location.lng
+      return [
+        {
+          position: {
+            lat: this.geoData.location.lat,
+            lng: this.geoData.location.lng
+          }
         }
-      }]
+      ]
     }
   }
 }

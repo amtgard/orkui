@@ -1,8 +1,6 @@
-import {
-  request
-} from './settings'
+import { request } from './settings'
 export default {
-  create (event, token) {
+  create(event, token) {
     let data = new FormData()
     data.append('request[Name]', event.name)
     data.append('request[Price]', event.fee)
@@ -18,7 +16,7 @@ export default {
       data: data
     })
   },
-  addAttendance (token, date, classId, eventDetailId, eventId, credits, player) {
+  addAttendance(token, date, classId, eventDetailId, eventId, credits, player) {
     let data = new FormData()
     data.append('call', 'Attendance/AddAttendance')
     data.append('request[Token]', token)
@@ -37,7 +35,7 @@ export default {
       data: data
     })
   },
-  fetch (filters) {
+  fetch(filters) {
     return request({
       method: 'get',
       data: {
@@ -46,7 +44,7 @@ export default {
       }
     })
   },
-  fetchOne (id) {
+  fetchOne(id) {
     return request({
       method: 'get',
       data: {
@@ -57,7 +55,7 @@ export default {
       }
     })
   },
-  fetchTemplate (id) {
+  fetchTemplate(id) {
     return request({
       method: 'get',
       parms: {
@@ -68,7 +66,7 @@ export default {
       }
     })
   },
-  fetchTemplates (filters) {
+  fetchTemplates(filters) {
     return request({
       method: 'get',
       params: {

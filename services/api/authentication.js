@@ -1,16 +1,14 @@
-import {
-  request
-} from './settings'
+import { request } from './settings'
 import PubSub from 'pubsub-js'
 export default {
-  login (user, pass) {
+  login(user, pass) {
     return request({
       params: {
         call: 'Authorization/Authorize',
         'request[UserName]': user,
         'request[Password]': pass
       }
-    }).then((resp) => {
+    }).then(resp => {
       if (resp.data.Status.Error === 'Success') {
         let token = resp.data.Token
         let user = { UserId: resp.data.UserId }
@@ -20,10 +18,10 @@ export default {
           params: {
             call: 'Player/GetPlayer',
             request: {
-              'MundaneId': user.UserId
+              MundaneId: user.UserId
             }
           }
-        }).then((resp) => {
+        }).then(resp => {
           if (resp.data.Status.Error === 'Success') {
             user = Object.assign(resp.data.Player, user)
             PubSub.publish('session.authenticated', {
@@ -35,7 +33,9 @@ export default {
             PubSub.publish('alerts.add', {
               type: 'warning',
               key: 'loginfailure',
-              message: `Issue loging in ${resp.data.ErrorMessage} ${resp.data.Status.Error}`
+              message: `Issue loging in ${resp.data.ErrorMessage} ${
+                resp.data.Status.Error
+              }`
             })
           }
         })
@@ -48,7 +48,7 @@ export default {
       }
     })
   },
-  getAuthorizations (user) {
+  getAuthorizations(user) {
     return request({
       params: {
         call: 'Authorization/GetAuthorizations',

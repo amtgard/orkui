@@ -1,10 +1,8 @@
-import {
-  request
-} from './settings'
+import { request } from './settings'
 // import PubSub from 'pubsub-js'
 export default {
-  getPlayer (player, token) {
-    let id = (typeof player === 'object') ? player.MundaneId : player
+  getPlayer(player, token) {
+    let id = typeof player === 'object' ? player.MundaneId : player
     return request({
       params: {
         call: 'Player/GetPlayer',
@@ -15,7 +13,7 @@ export default {
       }
     })
   },
-  getNotes (player, token) {
+  getNotes(player, token) {
     return request({
       params: {
         call: 'Player/GetNotes',
@@ -26,7 +24,7 @@ export default {
       }
     })
   },
-  getAwards (player, token) {
+  getAwards(player, token) {
     return request({
       params: {
         call: 'Player/AwardsForPlayer',
@@ -37,7 +35,7 @@ export default {
       }
     })
   },
-  getClasses (player, token) {
+  getClasses(player, token) {
     return request({
       params: {
         call: 'Player/GetPlayerClasses',
@@ -48,7 +46,7 @@ export default {
       }
     })
   },
-  addUser (player, token) {
+  addUser(player, token) {
     player.Token = token
     return request({
       params: {
