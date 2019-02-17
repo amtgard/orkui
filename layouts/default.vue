@@ -9,34 +9,34 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <router-link class="navbar-brand" to="/"><span>GV Events</span></router-link>
+          <nuxt-link class="navbar-brand" to="/"><span>GV Events</span></nuxt-link>
         </div>
         <div class="collapse navbar-collapse" id="gv-nav-links">
           <ul class="nav navbar-nav">
             <li>
-              <router-link to="/kingdoms">Kingdoms</router-link>
+              <nuxt-link to="/kingdoms">Kingdoms</nuxt-link>
             </li>
             <li v-if="activeKingdom">
-              <router-link :to="{ name: 'Parks', params: {kingdomId: activeKingdom.KingdomId}}">Parks</router-link>
+              <nuxt-link :to="{ name: 'Parks', params: {kingdomId: activeKingdom.KingdomId}}">Parks</nuxt-link>
             </li>
             <li v-if="authenticated">
-              <router-link to="/location/add"><span>Locations</span></router-link>
+              <nuxt-link to="/location/add"><span>Locations</span></nuxt-link>
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 Events <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <router-link v-if="authenticated" tag="li" to="/event/add">
+                <nuxt-link v-if="authenticated" tag="li" to="/event/add">
                   <a>Add New</a>
-                </router-link>
-                <router-link tag="li" to="/events">
+                </nuxt-link>
+                <nuxt-link tag="li" to="/events">
                   <a>View All</a>
-                </router-link>
+                </nuxt-link>
                 <li role="separator" class="divider"></li>
-                <router-link v-for="event in events" :key="event._id" tag="li" :to="{ name: 'event', params: {eventId: event._id} }">
+                <nuxt-link v-for="event in events" :key="event._id" tag="li" :to="{ name: 'event', params: {eventId: event._id} }">
                   <a>{{ event.name }}</a>
-                </router-link>
+                </nuxt-link>
               </ul>
             </li>
           </ul>
@@ -67,14 +67,12 @@
 </template>
 
 <script>
-import {
-  EventsTable
-} from '/collections/EventsTable'
 import Moment from 'moment'
 import PubSub from 'pubsub-js'
-import AuthComp from './Auth'
-import Alerts from './alerts'
+import AuthComp from '~/components/Auth'
+import Alerts from '~/components/alerts'
 import {mapGetters} from 'vuex'
+
 export default {
   data() {
     return {
@@ -90,15 +88,6 @@ export default {
       return (this.user.MundaneId) ? true : false
     }
   },
-  meteor: {
-    events () {
-      return EventsTable.find({
-        date: {
-          $gte: Moment().subtract(14, 'days').format('YYYY-MM-DD')
-        }
-      })
-    }
-  },
   components: {
     Auth: AuthComp,
     Alerts: Alerts
@@ -110,7 +99,7 @@ export default {
 </script>
 
 <style lang="scss">
-$icon-font-path: "../../node_modules/bootstrap-sass/assets/fonts/bootstrap/";
+$icon-font-path: "~/node_modules/bootstrap-sass/assets/fonts/bootstrap/";
 
 body {
     margin: 0;
@@ -268,7 +257,7 @@ footer a {
     }
     .navitar {
       width: 50px !important;
-    },
+    }
   #gv-nav-links {
     font-size: .75rem;
     background-color: #f8f8f8;
@@ -279,5 +268,4 @@ footer a {
     justify-content: center;
   }
 }
-
 </style>

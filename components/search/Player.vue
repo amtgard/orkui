@@ -5,13 +5,13 @@
       <div v-else class=" heraldryBox"/>
     </div>
     <div class="resultData">
-      <router-link :to="{ name: 'Player', params: { playerId: player.MundaneId, parkId: player.ParkId } }">
+      <nuxt-link :to="{ name: 'Player', params: { playerId: player.MundaneId, parkId: player.ParkId } }">
         <p class="h3">{{ player.Persona }}</p>
-      </router-link>
+      </nuxt-link>
       <span class="text-muted">
-        <router-link :to="{ name: 'Parks', params: { kingdomId: player.KingdomId } }">{{player.KingdomName}}</router-link>
+        <nuxt-link :to="{ name: 'Parks', params: { kingdomId: player.KingdomId } }">{{player.KingdomName}}</nuxt-link>
         ::
-        <router-link :to="{ name: 'Park', params: { parkId: player.ParkId } }">{{player.ParkName}}</router-link>
+        <nuxt-link :to="{ name: 'Park', params: { parkId: player.ParkId } }">{{player.ParkName}}</nuxt-link>
       </span>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="list-group" v-if="event">
-      REGISTRATIONS for <router-link :to="{ name: 'event', params: {eventId: event._id} }">{{ event.name }}</router-link>
+      REGISTRATIONS for <nuxt-link :to="{ name: 'event', params: {eventId: event._id} }">{{ event.name }}</nuxt-link>
   	<div class="list-group-item" v-for="reg in registrations">
       <div class="pull-right btn-group">
         <button type="button" class="btn btn-sm btn-danger" v-on:click="deleteReg(reg)">
@@ -9,9 +9,9 @@
         <button type="button" class="btn btn-sm btn-warning" v-on:click="emailReg(reg)" title="resend email">
           <span class="glyphicon glyphicon-retweet"></span>
         </button>
-        <router-link class="btn btn-sm" :to="{ name: 'register', params: {reg: reg._id, eventId: reg.event} }">
+        <nuxt-link class="btn btn-sm" :to="{ name: 'register', params: {reg: reg._id, eventId: reg.event} }">
           <span class="glyphicon glyphicon-pencil"></span>
-        </router-link>
+        </nuxt-link>
       </div>
   		<p>
   			<strong>Name:</strong> {{ reg.first_name }} {{ reg.last_name }},

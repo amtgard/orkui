@@ -1,28 +1,28 @@
 <template>
   <div v-if="park">
     <div class="title text-left">
-      <router-link :to="{ name: 'Parks', params: { kingdomId: park.KingdomId } }">
+      <nuxt-link :to="{ name: 'Parks', params: { kingdomId: park.KingdomId } }">
         <span class="h2">{{ kingdom.KingdomName }}</span>
-      </router-link>
+      </nuxt-link>
       <span class="glyphicon glyphicon-arrow-right"></span>
       <span class="h1">{{ park.ParkName }}</span>
     </div>
     <div class="col-md-3 col-lg-2 list-group userList">
-      <router-link :to="{ name: 'Park', params: {parkId: park.ParkId, view: 'info'}}" class="list-group-item">
+      <nuxt-link :to="{ name: 'Park', params: {parkId: park.ParkId, view: 'info'}}" class="list-group-item">
         View Park
-      </router-link>
-      <router-link :to="{ name: 'Park', params: {parkId: park.ParkId, view: 'addUser'} }" class="list-group-item">
+      </nuxt-link>
+      <nuxt-link :to="{ name: 'Park', params: {parkId: park.ParkId, view: 'addUser'} }" class="list-group-item">
         Create Player
-      </router-link>
-      <router-link :to="{ name: 'Park', params: {parkId: park.ParkId, view: 'search'} }" class="list-group-item">
+      </nuxt-link>
+      <nuxt-link :to="{ name: 'Park', params: {parkId: park.ParkId, view: 'search'} }" class="list-group-item">
         Search Players
-      </router-link>
-      <router-link :to="{ name: 'Park', params: {parkId: park.ParkId, view: 'attendance'} }" class="list-group-item">
+      </nuxt-link>
+      <nuxt-link :to="{ name: 'Park', params: {parkId: park.ParkId, view: 'attendance'} }" class="list-group-item">
         Attendance
-      </router-link>
-      <router-link :to="{ name: 'Park', params: {parkId: park.ParkId, view: 'activity'} }" class="list-group-item">
+      </nuxt-link>
+      <nuxt-link :to="{ name: 'Park', params: {parkId: park.ParkId, view: 'activity'} }" class="list-group-item">
         Activity Report
-      </router-link>
+      </nuxt-link>
       <div class="list-group-item">
         <button @click="loadPLayers" class="btn btn-default btn-xs" title="Load Players">
           <span class="glyphicon glyphicon-retweet"></span>
@@ -35,7 +35,7 @@
         <span @click="togglePlayers">Active Players</span>
       </div>
       <div v-if="showPlayers" id="park-players-active">
-        <div class="list-group-item" @click="setPlayer(player)" v-for="player in activePlayers">
+        <div @click="setPlayer(player)" v-for="player in activePlayers" :key="player.PlayerId" class="list-group-item" >
           <span class="h5">{{ player.Persona }}</span>
           <ul class="text-muted">
             <li class="list-unstyled">
@@ -65,7 +65,7 @@
           </p>
           <table class="table table-striped">
             <tbody>
-              <tr v-for="officer in officers">
+              <tr v-for="officer in officers" :key="officer.OfficerRole">
                 <th>{{ officer.OfficerRole }}</th>
                 <td>{{ officer.Persona }}</td>
               </tr>
@@ -73,7 +73,6 @@
           </table>
         </div>
       </div>
-      <ActivityReport v-if="view == 'activity'" class="col-sm-12" :players="players" :park="park"></ActivityReport>
       <playerSearch v-if="view == 'search'" :park="park.ParkId"></playerSearch>
       <Attendance v-if="view == 'attendance'" :park="park"></Attendance>
       <Player v-if="view == 'player'" :player="player"></Player>
@@ -86,15 +85,13 @@
 </template>
 <script>
 import Parks from '~/services/api/park'
-import Player from './Player'
-import Attendance from './Attendance'
-import UserForm from './UserForm'
-import PlayerSearch from './SearchPlayers'
-import ActivityReport from './park/ActivityReport'
+import Player from '~/components/Player'
+import Attendance from '~/components/Attendance'
+import UserForm from '~/components/UserForm'
+import PlayerSearch from '~/components/SearchPlayers'
+//import ActivityReport from './park/ActivityReport'
 import { mapGetters } from 'vuex'
 import Collection from 'lodash/collection'
-import { PlayersTable } from '/collections/PlayersTable'
-import { SigninTable } from '/collections/SigninTable'
 
 export default {
   data () {
@@ -115,8 +112,7 @@ export default {
     playerSearch: PlayerSearch,
     Player: Player,
     Attendance: Attendance,
-    UserForm: UserForm,
-    ActivityReport
+    UserForm: UserForm
   },
   computed: {
     canEdit () {
@@ -161,7 +157,7 @@ export default {
   },
   methods: {
     fetchPlayers () {
-      this.players = PlayersTable.find({ParkId: this.park.ParkId}).fetch({ParkId: this.park.ParkId})
+      //this.players = PlayersTable.find({ParkId: this.park.ParkId}).fetch({ParkId: this.park.ParkId})
     },
     loadPark (parkId) {
       Parks.getParkShort(parkId).then((resp) => {
@@ -209,19 +205,6 @@ export default {
   mounted () {
     this.$subscribe('players', {ParkId: this.$route.params.parkId}, () => {
       this.fetchPlayers()
-    })
-    PlayersTable.addLinks({
-      signins: {
-        collection: PlayersTable,
-        inversedBy: 'player'
-      }
-    })
-    SigninTable.addLinks({
-      player: {
-          type: 'one',
-          field: 'MundaneId',
-          collection: PlayersTable
-      }
     })
     this.loadPark(this.$route.params.parkId)
   },

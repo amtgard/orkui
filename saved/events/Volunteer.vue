@@ -2,9 +2,9 @@
   <div id="volunteer" class="form">
 
     <div class="text-muted text-left">
-      <router-link :to="{ name: 'event', params: { eventId: event._id } }">
+      <nuxt-link :to="{ name: 'event', params: { eventId: event._id } }">
         <span class="h2">{{ event.name }}</span>
-      </router-link>
+      </nuxt-link>
       <span class="glyphicon glyphicon-arrow-right"></span>
       <span class="">Volunteer form</span>
     </div>

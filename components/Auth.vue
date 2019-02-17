@@ -5,9 +5,9 @@
       <img class="img-responsive img-circle navitar" :src="avatar" :alt="'Welcome ' + user.Persona" @error="setDefaultAvatar">
     </a>
     <ul class="dropdown-menu">
-      <li><router-link :to="{ name: 'Player', params: { parkId: user.ParkId, playerId: user.MundaneId }}">Me</router-link></li>
-      <li><router-link :to="{ name: 'Park', params: {parkId: user.ParkId}}">My Park</router-link></li>
-      <li><router-link :to="{ name: 'Parks', params: {kingdomId: user.KingdomId}}">My Kingdom</router-link></li>
+      <li><nuxt-link :to="{ name: 'Player', params: { parkId: user.ParkId, playerId: user.MundaneId }}">Me</nuxt-link></li>
+      <li><nuxt-link :to="{ name: 'Park', params: {parkId: user.ParkId}}">My Park</nuxt-link></li>
+      <li><nuxt-link :to="{ name: 'Parks', params: {kingdomId: user.KingdomId}}">My Kingdom</nuxt-link></li>
       <li><a href="#" @click="logout">logout</a></li>
     </ul>
   </div>

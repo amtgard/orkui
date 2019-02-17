@@ -5,9 +5,9 @@
       <div v-else class=" heraldryBox"/>
     </div>
     <div class="resultData">
-      <router-link :to="{ name: 'Park', params: { parkId: park.ParkId } }">
+      <nuxt-link :to="{ name: 'Park', params: { parkId: park.ParkId } }">
         <p class="h3">{{ park.Name }}</p>
-      </router-link>
+      </nuxt-link>
       <p class="text-muted">Park</p>
     </div>
   </div>

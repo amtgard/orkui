@@ -9,10 +9,10 @@
   </div>
 </template>
 <script>
-import PlayerSearch from './SearchPlayers'
+import PlayerSearch from '~/components/SearchPlayers'
 import Parks from '~/services/api/park'
 import Kingdoms from '~/services/api/kingdom'
-import Park from './search/Park'
+import Park from '~/components/search/Park'
 import {mapGetters} from 'vuex'
 export default {
   data () {

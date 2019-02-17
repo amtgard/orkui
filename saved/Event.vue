@@ -6,12 +6,12 @@
 			<button v-if="canEdit" class="btn btn-default btn-xs" @click="setView('edit')" title="Edit">
 				<span class="glyphicon glyphicon-pencil"></span>
 			</button>
-			<router-link v-if="canEdit" :to="{ name: 'registrations', params: {eventId: event._id} }" class="btn btn-default btn-xs" title="View Registrations">
+			<nuxt-link v-if="canEdit" :to="{ name: 'registrations', params: {eventId: event._id} }" class="btn btn-default btn-xs" title="View Registrations">
 				<span class="glyphicon glyphicon-book"></span>
-			</router-link>
-			<router-link :to="{ name: 'event', params: {eventId: event._id, view: 'volunteer'} }" class="btn btn-default btn-xs" title="Volunteer">
+			</nuxt-link>
+			<nuxt-link :to="{ name: 'event', params: {eventId: event._id, view: 'volunteer'} }" class="btn btn-default btn-xs" title="Volunteer">
 				<span class="glyphicon glyphicon-gift"></span>
-			</router-link>
+			</nuxt-link>
 		</div>
 		<h2>{{ event.name }}</h2>
     <div class="two-column">

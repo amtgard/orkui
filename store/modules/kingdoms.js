@@ -1,4 +1,4 @@
-import Kingdoms from '/imports/services/api/kingdom'
+import Kingdoms from '~/services/api/kingdom'
 import PubSub from 'pubsub-js'
 import Collection from 'lodash/collection'
 
@@ -8,31 +8,33 @@ const state = {
 }
 
 const getters = {
-  getKingdoms () {
+  getKingdoms() {
     return state.kingdoms
   },
-  getKingdomById (id) {
-    return Collection.find(state.kingdoms, {KingdomId: id})
-  },
-  getKingdomByName (name) {
-    return Collection.filter(state.kingdoms, function (o) {
-      return (o.KingdomName && o.KingdomName.indexOf(name) !== -1)
+  getKingdomById(id) {
+    return Collection.find(state.kingdoms, {
+      KingdomId: id
     })
   },
-  activeKingdom () {
+  getKingdomByName(name) {
+    return Collection.filter(state.kingdoms, function(o) {
+      return o.KingdomName && o.KingdomName.indexOf(name) !== -1
+    })
+  },
+  activeKingdom() {
     return state.activeKingdom
   }
 }
 
 const actions = {
-  getKingdoms (context) {
+  getKingdoms(context) {
     let local = localStorage.getItem('kingdoms')
     if (local && local.length > 0) {
       console.log('Using saved kingdom list')
       context.commit('SET_KINGDOMS', JSON.parse(local))
       return
     }
-    Kingdoms.fetch().then((resp) => {
+    Kingdoms.fetch().then(resp => {
       if (resp.data.Kingdoms) {
         let kingdoms = []
         for (i in resp.data.Kingdoms) {
@@ -49,17 +51,17 @@ const actions = {
       }
     })
   },
-  setActive (context, kingdom) {
+  setActive(context, kingdom) {
     context.commit('SET_ACTIVE', kingdom)
   }
 }
 
 const mutations = {
-  SET_KINGDOMS (state, kingdoms) {
+  SET_KINGDOMS(state, kingdoms) {
     localStorage.setItem('kingdoms', JSON.stringify(kingdoms))
     state.kingdoms = kingdoms
   },
-  SET_ACTIVE (state, kingdom) {
+  SET_ACTIVE(state, kingdom) {
     state.activeKingdom = kingdom
   }
 }

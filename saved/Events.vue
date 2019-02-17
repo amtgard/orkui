@@ -5,12 +5,12 @@
       <p>{{event.days}} day event, starting {{ event.date }}</p>
       <p>{{ event.location }}</p>
       <p>{{ event.description }}</p>
-      <router-link :to="{ name: 'event', params: { eventId: event._id }}">
+      <nuxt-link :to="{ name: 'event', params: { eventId: event._id }}">
         View More
-      </router-link>
-      <router-link :to="{ name: 'register', params: { eventId: event._id }}">
+      </nuxt-link>
+      <nuxt-link :to="{ name: 'register', params: { eventId: event._id }}">
         Register
-      </router-link>
+      </nuxt-link>
     </div>
   </div>
 </template>

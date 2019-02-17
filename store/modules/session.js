@@ -9,42 +9,39 @@ const state = {
 }
 
 const getters = {
-  getUserPersona () {
-    return (state.user.Persona) ? state.user.Persona : ''
+  getUserPersona() {
+    return state.user.Persona ? state.user.Persona : ''
   },
-  getUserFullName () {
+  getUserFullName() {
     return `${state.user.GivenName} ${state.user.Surname}`
   },
-  getUser () {
+  getUser() {
     return state.user
   },
-  getToken () {
+  getToken() {
     return state.token
   },
-  getAuthorizations () {
+  getAuthorizations() {
     return state.authorizations
   }
 }
 
 const actions = {
-  load ({commit, state}) {
+  load({ commit, state }) {
     let user = JSON.parse(localStorage.getItem('user'))
     if (user) {
-        let timeout = new Date(localStorage.getItem('timeout'))
-        let now = new Date()
-        if (now < timeout) {
-            console.log('loading user')
-            commit('SET_USER', user)
-            commit('SET_AUTH', JSON.parse(localStorage.getItem('authorizations')))
-            commit('SET_TIMEOUT', timeout.toISOString())
-            commit('SET_TOKEN', localStorage.getItem('token'))
-        }
+      let timeout = new Date(localStorage.getItem('timeout'))
+      let now = new Date()
+      if (now < timeout) {
+        console.log('loading user')
+        commit('SET_USER', user)
+        commit('SET_AUTH', JSON.parse(localStorage.getItem('authorizations')))
+        commit('SET_TIMEOUT', timeout.toISOString())
+        commit('SET_TOKEN', localStorage.getItem('token'))
+      }
     }
   },
-  authenticate ({
-    commit,
-    state
-  }, data) {
+  authenticate({ commit, state }, data) {
     auth.login(data.user, data.pass)
     PubSub.subscribe('session.authenticated', (topic, payload) => {
       console.log(payload)
@@ -56,25 +53,25 @@ const actions = {
       })
     })
   },
-  logout ({commit, state}) {
+  logout({ commit, state }) {
     commit('LOGOUT')
   }
 }
 
 const mutations = {
-  SET_USER (state, user) {
+  SET_USER(state, user) {
     state.user = user
     localStorage.setItem('user', JSON.stringify(user))
   },
-  SET_TOKEN (state, token) {
+  SET_TOKEN(state, token) {
     state.token = token
     localStorage.setItem('token', token)
   },
-  SET_TIMEOUT (state, time) {
+  SET_TIMEOUT(state, time) {
     state.timeout = time
     localStorage.setItem('timeout', time)
   },
-  LOGOUT () {
+  LOGOUT() {
     state.user = {}
     state.token = null
     state.timeout = null
@@ -83,7 +80,7 @@ const mutations = {
     localStorage.removeItem('timeout')
     localStorage.removeItem('authorizations')
   },
-  SET_AUTH (state, auth) {
+  SET_AUTH(state, auth) {
     state.authorizations = auth
     localStorage.setItem('authorizations', JSON.stringify(auth))
   }

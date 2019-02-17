@@ -100,11 +100,11 @@
           </div>
           <div class="pull-right age-box" :class="getAgeClass(item.age)"></div>
           <p>
-            <router-link :to="{ name: 'Player', params: {
+            <nuxt-link :to="{ name: 'Player', params: {
               playerId: item.mundaneId,
               parkId: item.parkId,
               kingdomId: item.kingdomId
-            }}">{{ item.persona }}</router-link>
+            }}">{{ item.persona }}</nuxt-link>
           </p>
           <div class="text-muted">
             {{ item.mundaneName }}
@@ -130,9 +130,6 @@ import Players from '../services/api/player'
 import Collections from 'lodash/collection'
 import Moment from 'moment'
 import PubSub from 'pubsub-js'
-import { SigninTable } from '/collections/SigninTable'
-import {EventsTable} from '/collections/EventsTable'
-import {PlayersTable} from '/collections/PlayersTable'
 import vSelect from 'vue-select'
 import Vue from 'vue'
 Vue.component('v-select', vSelect)
@@ -227,7 +224,6 @@ export default {
       }
     },
     fetchSignins () {
-      this.signins = SigninTable.find({$or:[{eventId: this.event._id},{eventId: this.event.EventId}]}).fetch()
     },
     hasAuth (type, id) {
       return Collections.find(this.auths, {Type: type, Id: id})
@@ -323,7 +319,6 @@ export default {
       this.minor = false
     },
     remove (signin) {
-      Meteor.call('removeSignin', signin)
     },
     getParks () {
       if (!this.kingdom) {

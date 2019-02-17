@@ -5,9 +5,9 @@
       <div v-else class=" heraldryBox"/>
     </div>
     <div class="resultData">
-      <router-link :to="{ name: 'Unit', params: { unitId: unit.UnitId } }">
+      <nuxt-link :to="{ name: 'Unit', params: { unitId: unit.UnitId } }">
         <p class="h3">{{ unit.Name }}</p>
-      </router-link>
+      </nuxt-link>
       <div class="text-muted">
         Type: {{ unit.Type }}
         <a :href="'https://amtgard.com/ork/orkui/index.php?Route=Unit/index/' + unit.UnitId" target="_blank">Ork</a>

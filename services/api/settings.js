@@ -1,8 +1,8 @@
 import Axios from 'axios'
 import PubSub from 'pubsub-js'
 import qs from 'qs'
-import config from '/imports/config'
 
+let config = {}
 let baseurl = config.orkURL
 export const apiurl = baseurl + 'Json/'
 export const searchurl = baseurl + 'Search/SearchService.php'

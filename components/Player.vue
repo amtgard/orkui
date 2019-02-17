@@ -30,11 +30,11 @@
                 <tr>
                     <th>Kingdom</th>
                     <td>
-                        <router-link :to="{ name: 'Parks', params: { kingdomId: playerDetails.KingdomId } }">{{playerDetails.KingdomName}}</router-link>
+                        <nuxt-link :to="{ name: 'Parks', params: { kingdomId: playerDetails.KingdomId } }">{{playerDetails.KingdomName}}</nuxt-link>
                     </td>
                     <th>Park</th>
                     <td>
-                        <router-link :to="{ name: 'Park', params: { parkId: playerDetails.ParkId } }">{{playerDetails.ParkName}}</router-link>
+                        <nuxt-link :to="{ name: 'Park', params: { parkId: playerDetails.ParkId } }">{{playerDetails.ParkName}}</nuxt-link>
                     </td>
                 </tr>
                 <tr v-if="playerDetails.Notes && playerDetails.Notes.length > 0">

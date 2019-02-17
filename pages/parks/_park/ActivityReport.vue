@@ -114,7 +114,6 @@
 <script>
 import Parks from '~/services/api/park'
 import { mapGetters } from 'vuex'
-import { PlayersTable } from '/collections/PlayersTable'
 import _ from 'lodash'
 import moment from 'moment'
 export default {
