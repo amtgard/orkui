@@ -1,7 +1,7 @@
 import auth from '~/services/api/authentication'
 import PubSub from 'pubsub-js'
 
-const state = () => {
+export const state = () => {
   return {
     token: null,
     user: {},
@@ -10,25 +10,7 @@ const state = () => {
   }
 }
 
-const getters = {
-  getUserPersona() {
-    return state.user.Persona ? state.user.Persona : ''
-  },
-  getUserFullName() {
-    return `${state.user.GivenName} ${state.user.Surname}`
-  },
-  getUser() {
-    return state.user
-  },
-  getToken() {
-    return state.token
-  },
-  getAuthorizations() {
-    return state.authorizations
-  }
-}
-
-const actions = {
+export const actions = {
   load({ commit, state }) {
     let user = JSON.parse(localStorage.getItem('user'))
     if (user) {
@@ -60,7 +42,7 @@ const actions = {
   }
 }
 
-const mutations = {
+export const mutations = {
   SET_USER(state, user) {
     state.user = user
     localStorage.setItem('user', JSON.stringify(user))
@@ -86,11 +68,4 @@ const mutations = {
     state.authorizations = auth
     localStorage.setItem('authorizations', JSON.stringify(auth))
   }
-}
-
-export default {
-  state: state,
-  getters: getters,
-  actions: actions,
-  mutations: mutations
 }

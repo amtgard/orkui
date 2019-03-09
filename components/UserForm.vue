@@ -1,8 +1,12 @@
 <template>
   <form class="form text-left" @submit="submit">
     <div class="row h2">
-      <span v-if="edit">Update Player</span>
-      <span v-else>Create Player</span>
+      <span v-if="edit">
+        Update Player
+      </span>
+      <span v-else>
+        Create Player
+      </span>
     </div>
     <div class="row">
       <div class="form-group col-md-6">
@@ -27,13 +31,13 @@
           class="form-control"
         />
         <div class="help-block">
-          <span class="text-critical" v-if="!validations.UserName.required"
-            >Username is required</span
-          >
-          <span class="text-critical" v-if="!validations.UserName.minLength"
-            >Username must have at least
-            {{ validations.UserName.$params.minLength.min }} characters.</span
-          >
+          <span class="text-critical" v-if="!validations.UserName.required">
+            Username is required
+          </span>
+          <span class="text-critical" v-if="!validations.UserName.minLength">
+            Username must have at least
+            {{ validations.UserName.$params.minLength.min }} characters.
+          </span>
         </div>
       </div>
       <div class="form-group col-md-6">
@@ -60,30 +64,36 @@
         <label>Email</label>
         <input type="email" v-model="player.Email" class="form-control" />
         <div class="help-block">
-          <span class="text-critical" v-if="!validations.Email.email"
-            >email is incorectly formatted</span
-          >
+          <span class="text-critical" v-if="!validations.Email.email">
+            email is incorectly formatted
+          </span>
         </div>
       </div>
       <div class="col-md-6 form-group">
-        <label for="Kingdom">Kingdom</label>
+        <label for="Kingdom">
+          Kingdom
+        </label>
         <select class="form-control" v-model="player.KingdomId">
-          <option v-for="kingdom in kingdoms" :value="kingdom.KingdomId">{{
-            kingdom.KingdomName
-          }}</option>
+          <option v-for="kingdom in kingdoms" :key="kingdom.KingdomId" :value="kingdom.KingdomId">
+            {{ kingdom.KingdomName }}
+          </option>
         </select>
       </div>
       <div class="col-md-6 form-group">
-        <label for="Park">Park</label>
+        <label for="Park">
+          Park
+        </label>
         <select class="form-control" v-model="player.ParkId">
-          <option v-for="park in parks" :value="park.ParkId">{{
-            park.Name
-          }}</option>
+          <option v-for="park in parks" :key="park.ParkId" :value="park.ParkId">
+            {{ park.Name }}
+          </option>
         </select>
       </div>
     </div>
     <div class="form-group row">
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">
+        Submit
+      </button>
     </div>
   </form>
 </template>
@@ -95,7 +105,20 @@ import PubSub from 'pubsub-js'
 import { mapGetters } from 'vuex'
 const { required, minLength, email } = require('vuelidate/lib/validators')
 export default {
-  props: ['edit', 'park'],
+  props: {
+    edit: {
+      default() {
+        return {}
+      },
+      type: Object
+    },
+    park: {
+      default() {
+        return {}
+      },
+      type: Object
+    }
+  },
   data() {
     return {
       player: {
@@ -135,6 +158,23 @@ export default {
       kingdoms: 'getKingdoms'
     })
   },
+  watch: {
+    'player.kingdomId'() {
+      this.parks = []
+      this.getParks()
+    },
+    park() {
+      this.setPark()
+    }
+  },
+  mounted() {
+    if (typeof this.edit === 'object') {
+      this.player = Object.assign(this.player, this.edit)
+    }
+    this.setPark()
+    this.$store.dispatch('getKingdoms')
+    this.getParks()
+  },
   methods: {
     getParks() {
       Parks.getParks(this.player.KingdomId).then(resp => {
@@ -166,25 +206,9 @@ export default {
         }
       })
     }
-  },
-  watch: {
-    'player.kingdomId'() {
-      this.parks = []
-      this.getParks()
-    },
-    park() {
-      this.setPark()
-    }
-  },
-  mounted() {
-    if (typeof this.edit === 'object') {
-      this.player = Object.assign(this.player, this.edit)
-    }
-    this.setPark()
-    this.$store.dispatch('getKingdoms')
-    this.getParks()
   }
 }
 </script>
 
-<style></style>
+<style>
+</style>

@@ -1,18 +1,38 @@
 <template>
-<div class="search">
-  <div class="form-group">
-    <input type="search" class="form-control" @keyup="query" v-model="term" placeholder="Search Players">
-  </div>
-  <div class="list-group">
-    <div class="list-group-item" v-for="player in players">
-      <nuxt-link :to="{ name: 'Player', params: { playerId: player.MundaneId, parkId: player.ParkId } }">
-        <p class="h3">{{ player.Persona }}</p>
-      </nuxt-link>
-      <span class="text-muted">
-        <nuxt-link :to="{ name: 'Parks', params: { kingdomId: player.KingdomId } }">{{player.KingdomName}}</nuxt-link>
-        ::
-        <nuxt-link :to="{ name: 'Park', params: { parkId: player.ParkId } }">{{player.ParkName}}</nuxt-link>
-      </span>
+  <div class="search">
+    <div class="form-group">
+      <input
+        type="search"
+        class="form-control"
+        @keyup="query"
+        v-model="term"
+        placeholder="Search Players"
+      />
+    </div>
+    <div class="list-group">
+      <div class="list-group-item" v-for="player in players" :key="player.PlayerId">
+        <nuxt-link
+          :to="{
+            name: 'Player',
+            params: { playerId: player.MundaneId, parkId: player.ParkId }
+          }"
+        >
+          <p class="h3">
+            {{ player.Persona }}
+          </p>
+        </nuxt-link>
+        <span class="text-muted">
+          <nuxt-link
+            :to="{ name: 'Parks', params: { kingdomId: player.KingdomId } }"
+          >
+            {{ player.KingdomName }}
+          </nuxt-link>
+          ::
+          <nuxt-link :to="{ name: 'Park', params: { parkId: player.ParkId } }">
+            {{ player.ParkName }}
+          </nuxt-link>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -20,7 +40,20 @@
 <script>
 import search from '../services/api/search'
 export default {
-  props: ['park', 'kingdom'],
+  props: {
+    park: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
+    kingdom: {
+      type: Object,
+      default() {
+        return {}
+      }
+    }
+  },
   data() {
     return {
       players: [],
@@ -42,5 +75,3 @@ export default {
   }
 }
 </script>
-
-<style></style>

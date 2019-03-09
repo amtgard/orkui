@@ -1,0 +1,30 @@
+{
+  "short_name": "GvEvents",
+  "name": "Amtgard ORK Lite",
+  "icons": [
+    {
+      "src": "icons/sparky_128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "icons/sparky_144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "icons/sparky_192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/sparky_512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+	"theme_color": "#444",
+  "start_url": ".",
+  "background_color": "#ccc",
+  "display": "standalone"
+}

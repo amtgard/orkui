@@ -2,16 +2,22 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       Attendance
-      <button @click="getAttendance">Reload</button>
+      <button @click="getAttendance">
+        Reload
+      </button>
     </div>
     <div class="panel-body">
       <div class="col-md-6 text-left">
         <div class="form-group">
-          <label for="Date">Date</label>
+          <label for="Date">
+            Date
+          </label>
           <input type="date" v-model="date" class="form-control" />
         </div>
         <div class="form-group">
-          <label for="Kingdom">Kingdom</label>
+          <label for="Kingdom">
+            Kingdom
+          </label>
           <v-select
             :options="kingdomOptions"
             label="KingdomName"
@@ -20,7 +26,9 @@
           <div class="help-block"></div>
         </div>
         <div class="form-group">
-          <label for="Park">Park</label>
+          <label for="Park">
+            Park
+          </label>
           <v-select
             :options="parks"
             v-model="activePark"
@@ -28,19 +36,25 @@
           ></v-select>
         </div>
         <div class="form-group">
-          <label for="Player">Player</label>
+          <label for="Player">
+            Player
+          </label>
           <v-select :options="playerOptions" v-model="playerId"></v-select>
         </div>
         <div class="form-group col-md-6">
-          <label for="Class">Class</label>
+          <label for="Class">
+            Class
+          </label>
           <select class="form-control" v-model="classId">
-            <option v-for="skill in classes" :value="skill.ClassId">{{
-              skill.Name
-            }}</option>
+            <option v-for="skill in classes" :key="skill.ClassId" :value="skill.ClassId">
+              {{ skill.Name }}
+            </option>
           </select>
         </div>
         <div class="form-group col-md-6">
-          <label for="Credits">Credits</label>
+          <label for="Credits">
+            Credits
+          </label>
           <input type="number" v-model="credits" class="form-control" />
         </div>
         <div class="form-group">
@@ -51,7 +65,7 @@
       </div>
       <div class="col-md-6 list-group">
         <div>{{ date }}</div>
-        <div v-for="item in attendance" class="list-group-item">
+        <div v-for="item in attendance" :key="item.id" class="list-group-item">
           <button class="btn btn-xs pull-right" @click="edit(item)">
             <span class="glyphicon glyphicon-pencil"></span>
           </button>
@@ -63,13 +77,13 @@
           </button>
           <p>
             {{ item.Persona }}
-            <span class="text-muted"
-              >{{ item.Credits }} Credit in {{ item.ClassName }}</span
-            >
+            <span class="text-muted">
+              {{ item.Credits }} Credit in {{ item.ClassName }}
+            </span>
           </p>
-          <span class="text-muted"
-            >{{ item.FromKingdomName }}::{{ item.FromParkName }}</span
-          >
+          <span class="text-muted">
+            {{ item.FromKingdomName }}::{{ item.FromParkName }}
+          </span>
         </div>
       </div>
     </div>
@@ -86,7 +100,14 @@ import vSelect from 'vue-select'
 import Vue from 'vue'
 Vue.component('v-select', vSelect)
 export default {
-  props: ['park'],
+  props: {
+    park: {
+      type: Object,
+      default() {
+        return {}
+      }
+    }
+  },
   data() {
     return {
       classes: [],
@@ -127,6 +148,34 @@ export default {
       }
       return kingdoms
     }
+  },
+  watch: {
+    kingdom() {
+      this.parks = []
+      this.players = []
+      this.getParks()
+    },
+    activePark() {
+      this.players = []
+      this.getPlayers()
+    },
+    date() {
+      this.getAttendance()
+    },
+    park() {
+      this.setPark()
+    }
+  },
+  mounted() {
+    if (this.park) {
+      this.setPark()
+    }
+    this.getParks()
+    this.getPlayers()
+    this.$store.dispatch('getKingdoms')
+    Parks.getClasses().then(resp => {
+      this.classes = resp.data.Classes
+    })
   },
   methods: {
     send() {
@@ -229,36 +278,6 @@ export default {
         KingdomId: this.park.KingdomId
       }
     }
-  },
-  watch: {
-    kingdom() {
-      this.parks = []
-      this.players = []
-      this.getParks()
-    },
-    activePark() {
-      this.players = []
-      this.getPlayers()
-    },
-    date() {
-      this.getAttendance()
-    },
-    park() {
-      this.setPark()
-    }
-  },
-  mounted() {
-    if (this.park) {
-      this.setPark()
-    }
-    this.getParks()
-    this.getPlayers()
-    this.$store.dispatch('getKingdoms')
-    Parks.getClasses().then(resp => {
-      this.classes = resp.data.Classes
-    })
   }
 }
 </script>
-
-<style></style>

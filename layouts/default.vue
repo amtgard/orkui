@@ -1,67 +1,29 @@
 <template lang="html">
   <div class="app">
     <nav class="navbar navbar-default" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button
-            type="button"
-            class="navbar-toggle collapsed"
-            data-toggle="collapse"
-            data-target="#gv-nav-links"
-            aria-expanded="false"
-          >
-            <span class="sr-only">
-              Toggle navigation
-            </span>
-            <span class="icon-bar" />
-            <span class="icon-bar" />
-            <span class="icon-bar" />
-          </button>
-          <nuxt-link class="navbar-brand" to="/"><span>GV Events</span></nuxt-link>
-        </div>
-        <div id="gv-nav-links" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li>
-              <nuxt-link to="/kingdoms">Kingdoms</nuxt-link>
-            </li>
-            <li v-if="activeKingdom">
-              <nuxt-link :to="{ name: 'Parks', params: {kingdomId: activeKingdom.KingdomId}}">Parks</nuxt-link>
-            </li>
-            <li v-if="authenticated">
-              <nuxt-link to="/location/add"><span>Locations</span></nuxt-link>
-            </li>
-            <li class="dropdown">
-              <a
-                href="#"
-                class="dropdown-toggle"
-                data-toggle="dropdown"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Events <span class="caret" />
-              </a>
-              <ul class="dropdown-menu">
-                <nuxt-link v-if="authenticated" tag="li" to="/event/add">
-                  <a>Add New</a>
-                </nuxt-link>
-                <nuxt-link tag="li" to="/events">
-                  <a>View All</a>
-                </nuxt-link>
-                <li role="separator" class="divider"></li>
-                <nuxt-link v-for="event in events" :key="event._id" tag="li" :to="{ name: 'event', params: {eventId: event._id} }">
-                  <a>{{ event.name }}</a>
-                </nuxt-link>
-              </ul>
-            </li>
-          </ul>
-          <ul class="nav navbar-right nav-divider">
-            <Auth class="navbar-right navbar-form">
-              ??
-            </Auth>
-          </ul>
-        </div>
+      <div class="navbar-header">
+        <nuxt-link class="navbar-brand" to="/">
+          <span>Amtgard ORK</span>
+        </nuxt-link>
       </div>
+      <ul class="nav navbar-nav">
+        <li>
+          <nuxt-link to="/kingdoms">
+            Kingdoms
+          </nuxt-link>
+        </li>
+        <li v-if="activeKingdom">
+          <nuxt-link
+            :to="{
+              name: 'Parks',
+              params: { kingdomId: activeKingdom.KingdomId }
+            }"
+          >
+            Parks
+          </nuxt-link>
+        </li>
+      </ul>
+      <Auth class="navbar-right navbar-form form-inline"></Auth>
     </nav>
     <div id="app_content">
       <Alerts />
@@ -104,31 +66,37 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      user: 'getUser',
-      activeKingdom: 'activeKingdom'
-    }),
-    authenticated () {
-      return (this.user.MundaneId) ? true : false
+    user() {
+      return this.$store.state.session.user
+    },
+    activeKingdom() {
+      return this.$store.state.kingdoms.activeKingdom
+    },
+    authenticated() {
+      return this.user.MundaneId ? true : false
     }
   },
   components: {
     Auth: AuthComp,
     Alerts: Alerts
   },
-  mounted () {
-    this.$store.dispatch('load')
+  mounted() {
+    this.$store.dispatch('session/load')
   }
 }
 </script>
 
 <style lang="scss">
-$icon-font-path: "~/node_modules/bootstrap-sass/assets/fonts/bootstrap/";
+// Variables// Body
+$body-bg: #f3f3f3;
 
-body {
-  margin: 0;
-  overflow-x: hidden;
-}
+// Typography
+$font-family-sans-serif: 'Raleway', sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
 
 .app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -155,16 +123,12 @@ body {
   min-height: 85vh;
 }
 
-.navbar-default {
-  background-color: none;
-}
-
 main {
   text-align: center;
   margin-top: 40px;
 }
 
-header {
+nav {
   margin: 0;
   height: 56px;
   padding: 0 16px 0 24px;
@@ -181,10 +145,8 @@ header {
     box-sizing: border-box;
     padding-top: 16px;
   }
-  nav {
-    a {
-      color: #fff;
-    }
+  a {
+    color: #fff;
   }
   .navbar-default {
     background-color: inherit;
@@ -241,6 +203,10 @@ footer a {
   margin: 0.5em;
   border-radius: 10px;
   padding: 0.5em;
+}
+.heraldry {
+  max-height: 100px;
+  max-width: 120px;
 }
 
 @media (max-width: 1050px) {

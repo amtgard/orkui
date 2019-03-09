@@ -1,19 +1,16 @@
 <template>
   <div class="container">
-    <span v-if="kingdom.KingdomInfo" class="h2">
-      Parks in {{ kingdom.KingdomInfo.KingdomName }}
-    </span>
-
-    <PlayerSearch :kingdom="kingdom.KingdomInfo.KingdomId" />
-    <div v-if="parks.length > 0" class="two-column">
-      <Park v-for="park in parks" :key="park.ParkId" :park="park" />
+    <div class="two-column">
+      <Park v-for="park in parks" :key="park.ParkId" :park="park"></park>
     </div>
   </div>
 </template>
+
 <script>
 import PlayerSearch from '~/components/SearchPlayers'
 import Parks from '~/services/api/park'
 import Kingdoms from '~/services/api/kingdom'
+import Kingdom from '~/components/search/Kingdom'
 import Park from '~/components/search/Park'
 export default {
   data() {
@@ -24,13 +21,13 @@ export default {
   },
   computed: {
     kId() {
-      return this.$route.params.kingdomId
-        ? this.$route.params.kingdomId
+      return this.$route.params.kingdom
+        ? this.$route.params.kingdom
         : this.user.KingdomId
     },
-    ...mapGetters({
-      user: 'getUser'
-    })
+    user() {
+      return this.$store.state.session.user
+    }
   },
   watch: {
     kId() {
@@ -50,7 +47,7 @@ export default {
     getKingdom() {
       return Kingdoms.detail(this.kId).then(resp => {
         this.kingdom = resp.data
-        this.$store.dispatch('setActive', resp.data)
+        this.$store.dispatch('kingdoms/setActive', resp.data)
       })
     },
     getPark() {
@@ -62,6 +59,7 @@ export default {
   },
   components: {
     Park,
+    Kingdom,
     PlayerSearch
   }
 }

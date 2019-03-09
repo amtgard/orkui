@@ -28,7 +28,7 @@
           type="button"
           class="btn btn-xs"
           name="button"
-          v-on:click="editCabin(cab)"
+          @click="editCabin(cab)"
         >
           <span class="glyphicon glyphicon-pencil"></span>
         </button>
@@ -36,7 +36,7 @@
           type="button"
           class="btn btn-xs btn-danger"
           name="button"
-          v-on:click="removeCabin(cab)"
+          @click="removeCabin(cab)"
         >
           <span class="glyphicon glyphicon-trash"></span>
         </button>
@@ -69,6 +69,9 @@ export default {
       this.fetchCabins()
     }
   },
+  created() {
+    this.fetchCabins()
+  },
   methods: {
     fetchCabins() {
       if (!this.location) {
@@ -99,9 +102,6 @@ export default {
     editCabin(cabin) {
       this.cabin = cabin
     }
-  },
-  created() {
-    this.fetchCabins()
   }
 }
 </script>

@@ -2,17 +2,25 @@
   <div class="text-left">
     <table class="table table-stripped table-hover">
       <thead>
-        <th @click="sortAwards('name')">Award</th>
-        <th @click="sortAwards('date')">Date</th>
-        <th @click="sortAwards('grant')">Given By</th>
+        <th @click="sortAwards('name')">
+          Award
+        </th>
+        <th @click="sortAwards('date')">
+          Date
+        </th>
+        <th @click="sortAwards('grant')">
+          Given By
+        </th>
       </thead>
       <tbody>
-        <tr v-for="award in awards">
+        <tr v-for="award in awards" :key="award.AwardId">
           <td :title="award.Note">
             {{ award.IsLadder ? setOrder(award.Rank) : '' }}
             {{ award.KingdomAwardName }}
           </td>
-          <td :title="award.EventName">{{ formatDate(award.Date) }}</td>
+          <td :title="award.EventName">
+            {{ formatDate(award.Date) }}
+          </td>
           <td>{{ award.GivenBy }}</td>
         </tr>
       </tbody>
@@ -25,7 +33,14 @@ import Players from '../services/api/player'
 import moment from 'moment'
 import Collection from 'lodash/collection'
 export default {
-  props: ['user'],
+  props: {
+    user: {
+      type: Object,
+      default() {
+        return {}
+      }
+    }
+  },
   data() {
     return {
       awards: []
@@ -41,6 +56,14 @@ export default {
     byGrant() {
       return Collection.sortBy(this.awards, ['GivenById', 'Date'])
     }
+  },
+  watch: {
+    user() {
+      this.getAwards()
+    }
+  },
+  mounted() {
+    this.getAwards()
   },
   methods: {
     sortAwards(by) {
@@ -81,16 +104,6 @@ export default {
       date = moment(date)
       return date.format('M/D/Y')
     }
-  },
-  watch: {
-    user() {
-      this.getAwards()
-    }
-  },
-  mounted() {
-    this.getAwards()
   }
 }
 </script>
-
-<style></style>

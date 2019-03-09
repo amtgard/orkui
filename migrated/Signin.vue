@@ -8,30 +8,35 @@
         <form @submit.prevent="send">
           <div class="row">
             <div class="col-md-6 form-group">
-              <label for="Kingdom">Kingdom</label>
+              <label for="Kingdom">
+                Kingdom
+              </label>
               <select class="form-control" v-model="kingdom">
-                <option v-for="kingdom in kingdoms" :value="kingdom">{{
-                  kingdom.KingdomName
-                }}</option>
+                <option v-for="kingdom in kingdoms" :value="kingdom">
+                  {{ kingdom.KingdomName }}
+                </option>
               </select>
             </div>
             <div class="col-md-6 form-group">
-              <label for="Park">Park</label>
+              <label for="Park">
+                Park
+              </label>
               <select class="form-control" v-model="park">
-                <option v-for="park in parks" :value="park">{{
-                  park.Name
-                }}</option>
+                <option v-for="park in parks" :value="park">
+                  {{ park.Name }}
+                </option>
               </select>
             </div>
           </div>
           <div class="row">
             <div class="col-md-6">
-              <label
-                ><input type="checkbox" v-model="hasOrk" />Player has an
-                ork</label
-              >
+              <label>
+                <input type="checkbox" v-model="hasOrk" />Player has an
+              </label>
               <div class="form-group" v-if="hasOrk">
-                <label for="Player">Player</label>
+                <label for="Player">
+                  Player
+                </label>
                 <v-select
                   :options="players"
                   label="Persona"
@@ -45,7 +50,9 @@
                 />
               </div>
               <div class="form-group" v-else>
-                <label for="Player">Player</label>
+                <label for="Player">
+                  Player
+                </label>
                 <input
                   type="text"
                   placeholder="Persona"
@@ -61,7 +68,9 @@
               </div>
             </div>
             <div class="form-group col-md-6">
-              <label for="Class">Class</label>
+              <label for="Class">
+                Class
+              </label>
               <div v-for="index in parseFloat(event.days)" :key="index">
                 <select
                   class="form-control"
@@ -69,9 +78,9 @@
                   @change="forwardSkill(index)"
                   required
                 >
-                  <option v-for="skill in classes" :value="skill">{{
-                    skill.Name
-                  }}</option>
+                  <option v-for="skill in classes" :value="skill">
+                    {{ skill.Name }}
+                  </option>
                 </select>
               </div>
             </div>
@@ -121,9 +130,13 @@
               </label>
             </div>
             <div v-if="minor" class="row col-md-4 form-group">
-              <label class="sr-only">Troll Fee</label>
+              <label class="sr-only">
+                Troll Fee
+              </label>
               <div class="input-group">
-                <span class="input-group-addon">$</span>
+                <span class="input-group-addon">
+                  $
+                </span>
                 <input
                   type="number"
                   class="form-control"
@@ -183,8 +196,9 @@
                   kingdomId: item.kingdomId
                 }
               }"
-              >{{ item.persona }}</router-link
             >
+              {{ item.persona }}
+            </router-link>
           </p>
           <div class="text-muted">
             {{ item.mundaneName }}
@@ -194,7 +208,7 @@
           </div>
           <span class="text-muted">
             {{ item.kingdomName }}::{{ item.parkName }}
-            <span v-if="item.paid">${{ item.amount }}</span>
+            <span v-if="item.paid"> ${{ item.amount }} </span>
           </span>
         </div>
       </div>
@@ -306,6 +320,32 @@ export default {
       }
       return this.event.mundaneId == this.user.MundaneId
     }
+  },
+  watch: {
+    kingdom() {
+      this.parks = []
+      this.players = []
+      this.getParks()
+    },
+    park() {
+      this.players = []
+      this.getPlayers()
+    },
+    hasOrk(change) {
+      this.player = change ? null : {}
+    },
+    player(player) {
+      if (player && player.Surname.length > 0) {
+        this.mundane = `${player.GivenName} ${player.Surname}`
+      }
+    }
+  },
+  mounted() {
+    this.$store.dispatch('getKingdoms')
+    Parks.getClasses().then(resp => {
+      this.classes = resp.data.Classes
+    })
+    this.fetchSignins()
   },
   methods: {
     forwardSkill(event) {
@@ -466,32 +506,6 @@ export default {
       }
       return list.join(', ')
     }
-  },
-  watch: {
-    kingdom() {
-      this.parks = []
-      this.players = []
-      this.getParks()
-    },
-    park() {
-      this.players = []
-      this.getPlayers()
-    },
-    hasOrk(change) {
-      this.player = change ? null : {}
-    },
-    player(player) {
-      if (player && player.Surname.length > 0) {
-        this.mundane = `${player.GivenName} ${player.Surname}`
-      }
-    }
-  },
-  mounted() {
-    this.$store.dispatch('getKingdoms')
-    Parks.getClasses().then(resp => {
-      this.classes = resp.data.Classes
-    })
-    this.fetchSignins()
   }
 }
 </script>

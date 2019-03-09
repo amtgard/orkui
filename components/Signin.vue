@@ -8,37 +8,79 @@
         <form @submit.prevent="send">
           <div class="row">
             <div class="col-md-6 form-group">
-              <label for="Kingdom">Kingdom</label>
+              <label for="Kingdom">
+                Kingdom
+              </label>
               <select class="form-control" v-model="kingdom">
-                <option v-for="kingdom in kingdoms" :value="kingdom">{{ kingdom.KingdomName }}</option>
+                <option v-for="kingdom in kingdoms" :value="kingdom">
+                  {{ kingdom.KingdomName }}
+                </option>
               </select>
             </div>
             <div class="col-md-6 form-group">
-              <label for="Park">Park</label>
+              <label for="Park">
+                Park
+              </label>
               <select class="form-control" v-model="park">
-                <option v-for="park in parks" :value="park">{{ park.Name }}</option>
+                <option v-for="park in parks" :value="park">
+                  {{ park.Name }}
+                </option>
               </select>
             </div>
           </div>
           <div class="row">
             <div class="col-md-6">
-              <label><input type="checkbox" v-model="hasOrk">Player has an ork</label>
+              <label>
+                <input type="checkbox" v-model="hasOrk" />Player has an
+              </label>
               <div class="form-group" v-if="hasOrk">
-                <label for="Player">Player</label>
-                <v-select :options="players" label="Persona" v-model="player"></v-select>
-                <input type="text" placeholder="Mundane Name" v-model="mundane" class="form-control" />
+                <label for="Player">
+                  Player
+                </label>
+                <v-select
+                  :options="players"
+                  label="Persona"
+                  v-model="player"
+                ></v-select>
+                <input
+                  type="text"
+                  placeholder="Mundane Name"
+                  v-model="mundane"
+                  class="form-control"
+                />
               </div>
               <div class="form-group" v-else>
-                <label for="Player">Player</label>
-                <input type="text" placeholder="Persona" v-model="persona" class="form-control" />
-                <input type="text" placeholder="Mundane Name" v-model="mundane" class="form-control" />
+                <label for="Player">
+                  Player
+                </label>
+                <input
+                  type="text"
+                  placeholder="Persona"
+                  v-model="persona"
+                  class="form-control"
+                />
+                <input
+                  type="text"
+                  placeholder="Mundane Name"
+                  v-model="mundane"
+                  class="form-control"
+                />
               </div>
             </div>
             <div class="form-group col-md-6">
-              <label for="Class">Class</label>
+              <label for="Class">
+                Class
+              </label>
               <div v-for="index in parseFloat(event.days)" :key="index">
-                <select class="form-control" v-model="skill[index]" @change="forwardSkill(index)" required>
-                  <option v-for="skill in classes" :value="skill">{{ skill.Name }}</option>
+                <select
+                  class="form-control"
+                  v-model="skill[index]"
+                  @change="forwardSkill(index)"
+                  required
+                >
+                  <option v-for="skill in classes" :value="skill">
+                    {{ skill.Name }}
+                  </option>
                 </select>
               </div>
             </div>
@@ -46,7 +88,7 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label>Date of Birth</label>
-              <input type="date" v-model="dob" class="form-control" required/>
+              <input type="date" v-model="dob" class="form-control" required />
             </div>
             <div class="col-md-6">
               <div class="age-box" :class="ageClass"></div>
@@ -55,41 +97,86 @@
           <div class="formGroup row">
             <div class="row">
               <label>
-                <input type="checkbox" v-model="waivered" title="Has the player signed the Liability Waiver"> Waivered
+                <input
+                  type="checkbox"
+                  v-model="waivered"
+                  title="Has the player signed the Liability Waiver"
+                />
+                Waivered
               </label>
               <label>
-                <input type="checkbox" v-model="zta" title="Has the player signed the Zero Tolerance Policy"> Zero Tolerance Policy
+                <input
+                  type="checkbox"
+                  v-model="zta"
+                  title="Has the player signed the Zero Tolerance Policy"
+                />
+                Zero Tolerance Policy
               </label>
               <label>
-                <input type="checkbox" v-model="paid" title="Has the player paid troll"> Paid
+                <input
+                  type="checkbox"
+                  v-model="paid"
+                  title="Has the player paid troll"
+                />
+                Paid
               </label>
               <label>
-                <input type="checkbox" v-model="minor" title="Is the player under 14"> Non-Standard Fee
+                <input
+                  type="checkbox"
+                  v-model="minor"
+                  title="Is the player under 14"
+                />
+                Non-Standard Fee
               </label>
             </div>
             <div v-if="minor" class="row col-md-4 form-group">
-              <label class="sr-only">Troll Fee</label>
+              <label class="sr-only">
+                Troll Fee
+              </label>
               <div class="input-group">
-                <span class="input-group-addon">$</span>
-                <input type="number" class="form-control" placeholder="Ammount paid" v-model="amount" :max="event.fee">
+                <span class="input-group-addon">
+                  $
+                </span>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Ammount paid"
+                  v-model="amount"
+                  :max="event.fee"
+                />
               </div>
             </div>
           </div>
           <div class="form-group row">
-            <button type="button" class="btn btn-default" @click="clear">Reset</button>
-            <button type="submit" class="btn btn-primary">Enter Attendance</button>
+            <button type="button" class="btn btn-default" @click="clear">
+              Reset
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Enter Attendance
+            </button>
           </div>
         </form>
       </div>
       <div class="col-md-5 list-group">
         <div>
           {{ event.name }}
-          <button v-if="canEdit" class="btn btn-xs pull-right" @click="setAttendance(signins)">Commit Attendance</button>
+          <button
+            v-if="canEdit"
+            class="btn btn-xs pull-right"
+            @click="setAttendance(signins)"
+          >
+            Commit Attendance
+          </button>
         </div>
         <div class="small text-muted">
           Total {{ signins.length }} ${{ total }}
         </div>
-        <div v-for="item in signins" v-if="item" class="list-group-item" :style="!item.hasOrk ? 'border:2px red solid' : ''">
+        <div
+          v-for="item in signins"
+          v-if="item"
+          class="list-group-item"
+          :style="!item.hasOrk ? 'border:2px red solid' : ''"
+        >
           <div v-if="canEdit" class="pull-right">
             <a href="#" class="text-default" @click="edit(item)">
               <span class="glyphicon glyphicon-pencil"></span>
@@ -100,11 +187,18 @@
           </div>
           <div class="pull-right age-box" :class="getAgeClass(item.age)"></div>
           <p>
-            <nuxt-link :to="{ name: 'Player', params: {
-              playerId: item.mundaneId,
-              parkId: item.parkId,
-              kingdomId: item.kingdomId
-            }}">{{ item.persona }}</nuxt-link>
+            <nuxt-link
+              :to="{
+                name: 'Player',
+                params: {
+                  playerId: item.mundaneId,
+                  parkId: item.parkId,
+                  kingdomId: item.kingdomId
+                }
+              }"
+            >
+              {{ item.persona }}
+            </nuxt-link>
           </p>
           <div class="text-muted">
             {{ item.mundaneName }}
@@ -114,7 +208,7 @@
           </div>
           <span class="text-muted">
             {{ item.kingdomName }}::{{ item.parkName }}
-            <span v-if="item.paid">${{ item.amount }}</span>
+            <span v-if="item.paid"> ${{ item.amount }} </span>
           </span>
         </div>
       </div>
@@ -125,7 +219,7 @@
 <script>
 import Parks from '../services/api/park'
 import Events from '../services/api/event'
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import Players from '../services/api/player'
 import Collections from 'lodash/collection'
 import Moment from 'moment'
@@ -135,7 +229,7 @@ import Vue from 'vue'
 Vue.component('v-select', vSelect)
 export default {
   props: ['event'],
-  data () {
+  data() {
     return {
       classes: [],
       parks: [],
@@ -165,21 +259,30 @@ export default {
       user: 'getUser',
       auths: 'getAuthorizations'
     }),
-    activePark () {
-      return Collections.find(this.parks, {ParkId: this.parkId})
+    activePark() {
+      return Collections.find(this.parks, { ParkId: this.parkId })
     },
-    userCanSubmit () {
-      if (this.event.park && Collections.find(auths, {Type: 'Park', Id: this.event.park.ParkId})) {
+    userCanSubmit() {
+      if (
+        this.event.park &&
+        Collections.find(auths, { Type: 'Park', Id: this.event.park.ParkId })
+      ) {
         return true
       }
-      if (this.event.kingdom && Collections.find(auths, {Type: 'Kingdom', Id: this.event.kingdom.KingdomId})) {
+      if (
+        this.event.kingdom &&
+        Collections.find(auths, {
+          Type: 'Kingdom',
+          Id: this.event.kingdom.KingdomId
+        })
+      ) {
         return true
       }
       return false
     },
-    total () {
+    total() {
       let total = 0
-      for ( let i in this.signins) {
+      for (let i in this.signins) {
         let row = this.signins[i]
         let amt = parseFloat(row.amount)
         if (row.paid && amt) {
@@ -189,20 +292,22 @@ export default {
       return total
     },
     age: {
-      get () {
+      get() {
         let now = Moment()
         let birth = Moment(this.dob)
         return now.diff(birth, 'years')
       },
-      set (age) {
-        this.dob = Moment().subtract(age, 'years').format('YYYY-MM-DD')
+      set(age) {
+        this.dob = Moment()
+          .subtract(age, 'years')
+          .format('YYYY-MM-DD')
         return this.dob
       }
     },
-    ageClass () {
+    ageClass() {
       return this.getAgeClass(this.age)
     },
-    canEdit () {
+    canEdit() {
       if (this.event.park) {
         return this.hasAuth('Park', this.event.park.ParkId)
       } else if (this.event.kingdom) {
@@ -210,8 +315,34 @@ export default {
       } else if (this.event.unit) {
         return this.hasAuth('Unit', this.event.unit.UnitId)
       }
-      return (this.event.mundaneId == this.user.MundaneId)
+      return this.event.mundaneId == this.user.MundaneId
     }
+  },
+  watch: {
+    kingdom() {
+      this.parks = []
+      this.players = []
+      this.getParks()
+    },
+    park() {
+      this.players = []
+      this.getPlayers()
+    },
+    hasOrk(change) {
+      this.player = change ? null : {}
+    },
+    player(player) {
+      if (player && player.Surname.length > 0) {
+        this.mundane = `${player.GivenName} ${player.Surname}`
+      }
+    }
+  },
+  mounted() {
+    this.$store.dispatch('getKingdoms')
+    Parks.getClasses().then(resp => {
+      this.classes = resp.data.Classes
+    })
+    this.fetchSignins()
   },
   methods: {
     forwardSkill(event) {
@@ -219,26 +350,27 @@ export default {
       if (event > 1) {
         return
       }
-      for (x=0; x < parseFloat(this.event.days) + 1; x++) {
+      for (x = 0; x < parseFloat(this.event.days) + 1; x++) {
         this.skill[x] = skill
       }
     },
-    fetchSignins () {
+    fetchSignins() {},
+    hasAuth(type, id) {
+      return Collections.find(this.auths, { Type: type, Id: id })
     },
-    hasAuth (type, id) {
-      return Collections.find(this.auths, {Type: type, Id: id})
-    },
-    setAttendance (signins) {
+    setAttendance(signins) {
       for (let i in signins) {
         if (!signins[i].mundaneId) {
           continue
         }
         for (let x in signins[i].classes) {
           if (!signins[i].classes[x] || !signins[i].classes[x].ClassId) {
-            continue;
+            continue
           }
 
-          let date = Moment(this.event.date).add(x, 'days').format('YYYY-MM-DD')
+          let date = Moment(this.event.date)
+            .add(x, 'days')
+            .format('YYYY-MM-DD')
           Events.addAttendance(
             this.token,
             date,
@@ -251,8 +383,10 @@ export default {
         }
       }
     },
-    edit (signin) {
-      this.kingdom = Collections.find(this.kingdoms, {KingdomId: signin.kingdomId})
+    edit(signin) {
+      this.kingdom = Collections.find(this.kingdoms, {
+        KingdomId: signin.kingdomId
+      })
       this.player = {
         MundaneName: signin.mundaneName,
         MundaneId: signin.mundaneId,
@@ -267,13 +401,13 @@ export default {
       this.amount = signin.amount
       this.age = signin.age
       this.parkId = signin.parkId
-      this.park = Collections.find(this.parks, {ParkId: signin.parkId})
+      this.park = Collections.find(this.parks, { ParkId: signin.parkId })
       if (!this.park) {
-        this.park = {ParkId: signin.parkId, Name: signin.parkName}
+        this.park = { ParkId: signin.parkId, Name: signin.parkName }
         console.log('manually set park', this.park)
       }
     },
-    send () {
+    send() {
       let signin = {
         time: Moment(),
         eventName: this.event.name,
@@ -296,7 +430,7 @@ export default {
       }
       let resp = Meteor.call('signin', signin, this.onClear)
     },
-    onClear () {
+    onClear() {
       this.waivered = false
       this.paid = false
       this.zta = false
@@ -307,7 +441,7 @@ export default {
       this.dob = null
       this.fetchSignins()
     },
-    clear () {
+    clear() {
       this.kingdom = null
       this.park = null
       this.skill = []
@@ -318,21 +452,20 @@ export default {
       this.hasOrk = true
       this.minor = false
     },
-    remove (signin) {
-    },
-    getParks () {
+    remove(signin) {},
+    getParks() {
       if (!this.kingdom) {
         return []
       }
-      Parks.getParks(this.kingdom.KingdomId).then((resp) => {
+      Parks.getParks(this.kingdom.KingdomId).then(resp => {
         this.parks = resp.data.Parks
       })
     },
-    getPlayers () {
+    getPlayers() {
       if (!this.park) {
         return []
       }
-      Parks.getPlayers(this.park, this.token).then((resp) => {
+      Parks.getPlayers(this.park, this.token).then(resp => {
         players = []
         for (let i in resp.data.Roster) {
           if (resp.data.Roster[i].Persona) {
@@ -342,7 +475,7 @@ export default {
         this.players = players
       })
     },
-    getAgeClass (age) {
+    getAgeClass(age) {
       if (!parseFloat(age)) {
         return null
       }
@@ -355,7 +488,7 @@ export default {
       }
       return `${base}21`
     },
-    joinClasses (classes) {
+    joinClasses(classes) {
       let list = []
       for (let i in classes) {
         if (classes[i]) {
@@ -364,32 +497,6 @@ export default {
       }
       return list.join(', ')
     }
-  },
-  watch: {
-    kingdom () {
-      this.parks = []
-      this.players = []
-      this.getParks()
-    },
-    park () {
-      this.players = []
-      this.getPlayers()
-    },
-    hasOrk (change) {
-      this.player = (change) ? null : {}
-    },
-    player (player) {
-      if (player && player.Surname.length > 0) {
-        this.mundane = `${player.GivenName} ${player.Surname}`
-      }
-    }
-  },
-  mounted () {
-    this.$store.dispatch('getKingdoms')
-    Parks.getClasses().then(resp => {
-      this.classes = resp.data.Classes
-    })
-    this.fetchSignins()
   }
 }
 </script>

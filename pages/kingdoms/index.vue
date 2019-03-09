@@ -11,20 +11,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Kingdom from './search/Kingdom'
+import Kingdom from '~/components/search/Kingdom'
 export default {
   computed: {
-    ...mapGetters({
-      kingdoms: 'getKingdoms'
-    })
+    kingdoms() {
+      return this.$store.state.kingdoms.kingdoms
+    }
   },
   mounted() {
-    this.$store.dispatch('getKingdoms')
+    this.$store.dispatch('kingdoms/getKingdoms')
   },
   components: {
     Kingdom
   }
 }
 </script>
-<style></style>

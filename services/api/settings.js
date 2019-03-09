@@ -16,7 +16,7 @@ export let request = function(config) {
     },
     config
   )
-  req = Axios(config)
+  let req = Axios(config)
   req.catch(error => {
     if (error.response && error.response.status === 401) {
       PubSub.publish('session.end')

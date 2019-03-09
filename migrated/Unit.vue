@@ -19,11 +19,14 @@
               unit.UnitId
           "
           target="_blank"
-          >Ork</a
         >
+          Ork
+        </a>
       </div>
       <div v-if="unit.Url" class="text-muted">
-        <a :href="unit.Url" target="_blank">Website</a>
+        <a :href="unit.Url" target="_blank">
+          Website
+        </a>
       </div>
     </div>
   </div>

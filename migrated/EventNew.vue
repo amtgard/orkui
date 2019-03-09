@@ -1,10 +1,12 @@
 <template>
   <div>
-    <form class="form primary" v-on:submit.prevent="onSubmit">
+    <form class="form primary" @submit.prevent="onSubmit">
       <h2>Add an event {{ event._id }}</h2>
       <div class="form">
         <div class="form-group col-md-6">
-          <label for="Kingdom">Kingdom</label>
+          <label for="Kingdom">
+            Kingdom
+          </label>
           <v-select
             :options="kingdoms"
             label="KingdomName"
@@ -14,7 +16,9 @@
           <div class="help-block"></div>
         </div>
         <div class="form-group col-md-6">
-          <label for="Park">Park</label>
+          <label for="Park">
+            Park
+          </label>
           <v-select
             :options="parks"
             v-model="event.park"
@@ -29,9 +33,9 @@
           <label>Event Template</label>
           <select v-model="event.EventId" class="form-control">
             <option></option>
-            <option v-for="template in templates" :value="template.EventId">{{
-              template.Name
-            }}</option>
+            <option v-for="template in templates" :value="template.EventId">
+              {{ template.Name }}
+            </option>
           </select>
         </div>
         <div class="form-group" v-if="event._id">
@@ -73,7 +77,9 @@
         <div class="form-group col-md-4">
           <label>Fee</label>
           <div class="input-group">
-            <span class="input-group-addon">$</span>
+            <span class="input-group-addon">
+              $
+            </span>
             <input
               type="number"
               min="1"
@@ -87,9 +93,9 @@
           <label>Location</label>
           <select v-model="event.location" class="form-control">
             <option></option>
-            <option v-for="loc in locations" :value="loc._id">{{
-              loc.name
-            }}</option>
+            <option v-for="loc in locations" :value="loc._id">
+              {{ loc.name }}
+            </option>
           </select>
         </div>
         <div class="row">
@@ -169,7 +175,9 @@
       </div>
       <div class="row"></div>
       <div class="row">
-        <span class="h3">Crats</span>
+        <span class="h3">
+          Crats
+        </span>
         <span
           class="glyphicon glyphicon-plus-sign"
           @click="addCratPosition"
@@ -292,6 +300,15 @@ export default {
       token: 'getToken'
     })
   },
+  mounted() {
+    if (this.kingdoms.length == 0) {
+      this.$store.dispatch('getKingdoms')
+    }
+    this.getTemplates()
+    if (this.passedEvent) {
+      this.setEvent(this.passedEvent)
+    }
+  },
   methods: {
     fetchEvent(eventId) {
       return EventsTable.findOne(eventId)
@@ -412,15 +429,6 @@ export default {
     },
     cancelEdit() {
       PubSub.publish('events.edit.cancel')
-    }
-  },
-  mounted() {
-    if (this.kingdoms.length == 0) {
-      this.$store.dispatch('getKingdoms')
-    }
-    this.getTemplates()
-    if (this.passedEvent) {
-      this.setEvent(this.passedEvent)
     }
   }
 }

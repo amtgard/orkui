@@ -10,19 +10,33 @@
           placeholder="Search Players, Parks, Kingdoms, Companies & Households"
         />
         <span class="input-group-btn">
-          <button @click="sendRequest" class=" btn btn-primary">Search</button>
+          <button @click="sendRequest" class=" btn btn-primary">
+            Search
+          </button>
         </span>
         <span class="input-group-btn">
-          <button @click="clearAll" class=" btn btn-warn">Clear</button>
+          <button @click="clearAll" class=" btn btn-warn">
+            Clear
+          </button>
         </span>
       </div>
       <div class="form-group col-md-6">
         <select class="form-control" v-model="view">
-          <option value="all">All</option>
-          <option value="players">Players</option>
-          <option value="parks">Parks</option>
-          <option value="kingdoms">Kingdoms</option>
-          <option value="units">Companies/Households</option>
+          <option value="all">
+            All
+          </option>
+          <option value="players">
+            Players
+          </option>
+          <option value="parks">
+            Parks
+          </option>
+          <option value="kingdoms">
+            Kingdoms
+          </option>
+          <option value="units">
+            Companies/Households
+          </option>
         </select>
       </div>
     </div>
@@ -39,7 +53,9 @@
           :key="player.MundaneId"
           :player="player"
         />
-        <span v-else>No Player Results</span>
+        <span v-else>
+          No Player Results
+        </span>
       </div>
       <div
         v-if="view === 'all' || view === 'kingdoms'"
@@ -53,7 +69,9 @@
           :key="kingdom.KingdomId"
           :kingdom="kingdom"
         />
-        <span v-else>No Kingdom Results</span>
+        <span v-else>
+          No Kingdom Results
+        </span>
       </div>
       <div
         v-if="view === 'all' || view === 'parks'"
@@ -67,7 +85,9 @@
           :key="park.ParkId"
           :park="park"
         />
-        <span v-else>No Park Results</span>
+        <span v-else>
+          No Park Results
+        </span>
       </div>
       <div
         v-if="view === 'all' || view === 'units'"
@@ -81,7 +101,9 @@
           :key="unit.UnitId"
           :unit="unit"
         />
-        <span v-else>No Unit Results</span>
+        <span v-else>
+          No Unit Results
+        </span>
       </div>
     </div>
   </div>
@@ -95,6 +117,12 @@ import Park from './search/Park'
 import Unit from './search/Unit'
 import lo from 'lodash'
 export default {
+  components: {
+    Player,
+    Kingdom,
+    Park,
+    Unit
+  },
   data() {
     return {
       players: [],
@@ -104,12 +132,6 @@ export default {
       term: [],
       view: 'all'
     }
-  },
-  components: {
-    Player,
-    Kingdom,
-    Park,
-    Unit
   },
   methods: {
     clearAll() {

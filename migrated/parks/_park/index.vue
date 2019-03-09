@@ -102,9 +102,7 @@
         <playerSearch :park="park.ParkId" />
         <div class="col-md-7 panel panel-default panel-body text-left">
           <div v-if="park.HasHeraldry" class="col-sm-2 pull-left">
-            <img :src="heraldryUrl"
-class="img-responsive img-rounded"
-/>
+            <img :src="heraldryUrl" class="img-responsive img-rounded" />
           </div>
           <p v-html="park.Description" />
           <p v-html="park.Directions" />
@@ -134,14 +132,10 @@ class="img-responsive img-rounded"
         :players="players"
         :park="park"
       />
-      <playerSearch
-v-if="view == 'search'" :park="park.ParkId" />
-      <Attendance
-v-if="view == 'attendance'" :park="park" />
-      <Player
-v-if="view == 'player'" :player="player" />
-      <UserForm
-v-if="view == 'addUser'" :park="park" />
+      <playerSearch v-if="view == 'search'" :park="park.ParkId" />
+      <Attendance v-if="view == 'attendance'" :park="park" />
+      <Player v-if="view == 'player'" :player="player" />
+      <UserForm v-if="view == 'addUser'" :park="park" />
     </div>
   </div>
   <div v-else>

@@ -1,7 +1,7 @@
 <template lang="html">
   <EventNew
     v-if="view == 'edit'"
-    :passedEvent="event"
+    :passed-event="event"
     class="col-sm-8 col-sm-push-2"
   />
   <Volunteer v-else-if="view == 'volunteer'" :event="event"></Volunteer>
@@ -97,6 +97,12 @@ import Volunteer from './events/Volunteer'
 import PubSub from 'pubsub-js'
 import moment from 'moment'
 export default {
+  components: {
+    Signin,
+    EventNew,
+    Register,
+    Volunteer
+  },
   data() {
     return {
       locations: [],
@@ -113,12 +119,6 @@ export default {
     locations() {
       return LocationsTable.find()
     }
-  },
-  components: {
-    Signin,
-    EventNew,
-    Register,
-    Volunteer
   },
   watch: {
     'event.kingdom'() {
@@ -165,6 +165,21 @@ export default {
       return eventDate.isAfter(moment())
     }
   },
+  created() {
+    this.$subscribe('events', () => {
+      this.setEvent()
+      this.setView(this.$route.params.view ? this.$route.params.view : 'view')
+    })
+    if (this.kingdoms.length == 0) {
+      this.$store.dispatch('getKingdoms')
+    }
+    PubSub.subscribe('events.edit.cancel', () => {
+      this.view = 'view'
+    })
+    PubSub.subscribe('events.edit.complete', () => {
+      this.setEvent()
+    })
+  },
   methods: {
     prettyDate(date) {
       return moment(date).format('dddd, LL')
@@ -204,21 +219,6 @@ export default {
         this.parks = parks
       })
     }
-  },
-  created() {
-    this.$subscribe('events', () => {
-      this.setEvent()
-      this.setView(this.$route.params.view ? this.$route.params.view : 'view')
-    })
-    if (this.kingdoms.length == 0) {
-      this.$store.dispatch('getKingdoms')
-    }
-    PubSub.subscribe('events.edit.cancel', () => {
-      this.view = 'view'
-    })
-    PubSub.subscribe('events.edit.complete', () => {
-      this.setEvent()
-    })
   }
 }
 </script>

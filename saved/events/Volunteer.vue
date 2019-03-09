@@ -1,45 +1,64 @@
 <template>
   <div id="volunteer" class="form">
-
     <div class="text-muted text-left">
       <nuxt-link :to="{ name: 'event', params: { eventId: event._id } }">
-        <span class="h2">{{ event.name }}</span>
+        <span class="h2">
+          {{ event.name }}
+        </span>
       </nuxt-link>
       <span class="glyphicon glyphicon-arrow-right"></span>
-      <span class="">Volunteer form</span>
+      <span class="">
+        Volunteer form
+      </span>
     </div>
     <form @submit="sendMessage">
       <div class="row">
-        <div v-for="role, key in message.area" class="form-group col-md-6">
+        <div
+          v-for="(role, key) in message.area"
+          :key="key"
+          class="form-group col-md-6"
+        >
           <div class="checkbox">
-            <label><input v-model="message.area[key].on" type="checkbox">{{role.label}}</label>
+            <label>
+              <input v-model="message.area[key].on" type="checkbox" />{{
+                role.label
+              }}
+            </label>
           </div>
           <div class="form-group">
             <label>On</label>
-            <select v-model="message.area[key].days" multiple="multiple" class="form-control">
-              <option v-for="day in days[key]" :key="day" :value="day">{{ day }}</option>
+            <select
+              v-model="message.area[key].days"
+              multiple="multiple"
+              class="form-control"
+            >
+              <option v-for="day in days[key]" :key="day" :value="day">
+                {{ day }}
+              </option>
             </select>
           </div>
         </div>
       </div>
       <div class="form-group">
         <label>Name</label>
-        <input v-model="message.name" class="form-control" type="text">
+        <input v-model="message.name" class="form-control" type="text" />
       </div>
       <div class="form-group">
         <label>Phone</label>
-        <input v-model="message.phone" class="form-control" type="tel">
+        <input v-model="message.phone" class="form-control" type="tel" />
       </div>
       <div class="form-group">
         <label>Email</label>
-        <input v-model="message.email" class="form-control" type="email">
+        <input v-model="message.email" class="form-control" type="email" />
       </div>
       <div class="form-group">
         <label>Comments</label>
         <textarea v-model="message.comments" class="form-control" />
       </div>
       <div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">
+          Submit
+        </button>
       </div>
     </form>
   </div>
@@ -86,7 +105,7 @@ export default {
     }
   },
   computed: {
-    days () {
+    days() {
       let roles = {
         npc: [],
         reeve: [],
@@ -108,8 +127,7 @@ export default {
   },
   methods: {
     sendMessage() {
-      let body = `<h1>Volunteer form for ${this.event.name}</h1>` +
-        `<ul>`
+      let body = `<h1>Volunteer form for ${this.event.name}</h1>` + `<ul>`
       let roles = this.message.area
       for (let role in roles) {
         if (!roles[role].on) {
@@ -119,10 +137,16 @@ export default {
         body += `<li>${roles[role].label}: ${days}</li>`
       }
       body += '</ul>'
-      body += (this.message.name) ? `<div>Name: ${this.message.name}</div>` : ''
-      body += (this.message.phone) ? `<div>phone: ${this.message.phone}</div>` : ''
-      body += (this.message.email) ? `<div>email: ${this.message.email}</div>` : ''
-      body += (this.message.comments) ? `<div>comments: ${this.message.comments}</div>` : ''
+      body += this.message.name ? `<div>Name: ${this.message.name}</div>` : ''
+      body += this.message.phone
+        ? `<div>phone: ${this.message.phone}</div>`
+        : ''
+      body += this.message.email
+        ? `<div>email: ${this.message.email}</div>`
+        : ''
+      body += this.message.comments
+        ? `<div>comments: ${this.message.comments}</div>`
+        : ''
       for (let i in this.event.volunteerEmails) {
         Meteor.call(
           'sendEmail',

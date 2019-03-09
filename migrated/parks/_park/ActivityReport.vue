@@ -35,25 +35,28 @@
             Start Date
           </label>
           <input
-type="date" class="form-control" v-model="startField" />
+            type="date" class="form-control" v-model="startField"
+          />
         </div>
         <div class="col-sm-2 form-group">
           <label class="sr-only">
             End Date
           </label>
           <input
-type="date" class="form-control" v-model="endField" />
+            type="date" class="form-control" v-model="endField"
+          />
         </div>
         <div class="col-sm-2">
           <button
-class="btn btn-sm btn-default" @click="getSignins"
->
+            class="btn btn-sm btn-default" @click="getSignins"
+          >
             Run
           </button>
         </div>
       </div>
       <span
-class="muted">
+        class="muted"
+      >
         Report from {{ start.format('MMMM D, YYYY') }} to
         {{ end.format('MMMM D, YYYY') }}
       </span>
@@ -85,7 +88,9 @@ class="muted">
           <ul>
             <li v-for="player in duesPaid">
               {{ player.Persona }}
-              <small class="text-muted"> ({{ player.DuesThrough }}) </small>
+              <small class="text-muted">
+                ({{ player.DuesThrough }})
+              </small>
             </li>
             <li>
               <h5>Notes:</h5>
@@ -109,8 +114,8 @@ class="muted">
       <h3>Althing Notes</h3>
       <ul>
         <li v-for="note in althingNotes">
-{{ note.label }}: {{ note.note }}
-</li>
+          {{ note.label }}: {{ note.note }}
+        </li>
       </ul>
     </div>
   </div>

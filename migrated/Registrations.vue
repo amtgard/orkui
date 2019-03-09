@@ -1,22 +1,22 @@
 <template lang="html">
   <div class="list-group" v-if="event">
     REGISTRATIONS for
-    <router-link :to="{ name: 'event', params: { eventId: event._id } }">{{
-      event.name
-    }}</router-link>
+    <router-link :to="{ name: 'event', params: { eventId: event._id } }">
+      {{ event.name }}
+    </router-link>
     <div class="list-group-item" v-for="reg in registrations">
       <div class="pull-right btn-group">
         <button
           type="button"
           class="btn btn-sm btn-danger"
-          v-on:click="deleteReg(reg)"
+          @click="deleteReg(reg)"
         >
           <span class="glyphicon glyphicon-trash"></span>
         </button>
         <button
           type="button"
           class="btn btn-sm btn-warning"
-          v-on:click="emailReg(reg)"
+          @click="emailReg(reg)"
           title="resend email"
         >
           <span class="glyphicon glyphicon-retweet"></span>
@@ -70,13 +70,13 @@ export default {
       return cabins
     }
   },
-  created() {
-    this.fetchRegistrations()
-  },
   watch: {
     $route() {
       this.fetchRegistrations()
     }
+  },
+  created() {
+    this.fetchRegistrations()
   },
   methods: {
     deleteReg(reg) {

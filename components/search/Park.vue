@@ -1,30 +1,46 @@
 <template>
-	<div class="row searchRow">
+  <div class="row searchRow">
     <div class="avatarContainer">
-      <img v-if="loadAvatar" class="img-responsive img-rounded heraldry" :src="getHeraldyUrl()" @error="imageLoadError" >
-      <div v-else class=" heraldryBox"/>
+      <img
+        v-if="loadAvatar"
+        class="img-responsive img-rounded heraldry"
+        :src="getHeraldyUrl()"
+        @error="imageLoadError"
+      />
+      <div v-else class=" heraldryBox" />
     </div>
     <div class="resultData">
       <nuxt-link :to="{ name: 'Park', params: { parkId: park.ParkId } }">
-        <p class="h3">{{ park.Name }}</p>
+        <p class="h3">
+          {{ park.Name }}
+        </p>
       </nuxt-link>
-      <p class="text-muted">Park</p>
+      <p class="text-muted">
+        Park
+      </p>
     </div>
   </div>
 </template>
 <script>
 export default {
-  props: ['park'],
-  data () {
+  props: {
+    park: {
+      type: Object,
+      default() {
+        return {}
+      }
+    }
+  },
+  data() {
     return {
       loadAvatar: true
     }
   },
   methods: {
-    imageLoadError () {
+    imageLoadError() {
       this.loadAvatar = false
     },
-    getHeraldyUrl () {
+    getHeraldyUrl() {
       let id = this.park.ParkId.toString()
       while (id.length < 5) {
         id = '0' + id

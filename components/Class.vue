@@ -7,7 +7,7 @@
         <th>Credits</th>
       </thead>
       <tbody>
-        <tr v-for="skill in classes">
+        <tr v-for="skill in classes" :key="skill.ClassName">
           <td>{{ skill.ClassName }}</td>
           <td>{{ getLevel(skill) }}</td>
           <td>{{ skill.Credits }}</td>
@@ -20,11 +20,26 @@
 <script>
 import Players from '../services/api/player'
 export default {
-  props: ['player'],
+  props: {
+    player: {
+      type: Object,
+      default() {
+        return {}
+      }
+    }
+  },
   data() {
     return {
       classes: []
     }
+  },
+  watch: {
+    player() {
+      this.getClasses()
+    }
+  },
+  mounted() {
+    this.getClasses()
   },
   methods: {
     getLevel(skill) {
@@ -49,16 +64,6 @@ export default {
         this.classes = resp.data.Classes
       })
     }
-  },
-  mounted() {
-    this.getClasses()
-  },
-  watch: {
-    player() {
-      this.getClasses()
-    }
   }
 }
 </script>
-
-<style></style>

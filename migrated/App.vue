@@ -10,19 +10,23 @@
             data-target="#gv-nav-links"
             aria-expanded="false"
           >
-            <span class="sr-only">Toggle navigation</span>
+            <span class="sr-only">
+              Toggle navigation
+            </span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <router-link class="navbar-brand" to="/"
-            ><span>GV Events</span></router-link
-          >
+          <router-link class="navbar-brand" to="/">
+            <span>GV Events</span>
+          </router-link>
         </div>
         <div class="collapse navbar-collapse" id="gv-nav-links">
           <ul class="nav navbar-nav">
             <li>
-              <router-link to="/kingdoms">Kingdoms</router-link>
+              <router-link to="/kingdoms">
+                Kingdoms
+              </router-link>
             </li>
             <li v-if="activeKingdom">
               <router-link
@@ -30,13 +34,14 @@
                   name: 'Parks',
                   params: { kingdomId: activeKingdom.KingdomId }
                 }"
-                >Parks</router-link
               >
+                Parks
+              </router-link>
             </li>
             <li v-if="authenticated">
-              <router-link to="/location/add"
-                ><span>Locations</span></router-link
-              >
+              <router-link to="/location/add">
+                <span>Locations</span>
+              </router-link>
             </li>
             <li class="dropdown">
               <a
@@ -69,7 +74,9 @@
             </li>
           </ul>
           <ul class="nav navbar-right nav-divider">
-            <Auth class="navbar-right navbar-form">??</Auth>
+            <Auth class="navbar-right navbar-form">
+              ??
+            </Auth>
           </ul>
         </div>
       </div>
@@ -80,10 +87,14 @@
     </div>
     <footer>
       <div class="column1">
-        <a href="amtgard.com">Amtgard</a>
+        <a href="amtgard.com">
+          Amtgard
+        </a>
       </div>
       <div class="column2">
-        <a href="https://etherealvisions.us/">Shawn Barratt</a>
+        <a href="https://etherealvisions.us/">
+          Shawn Barratt
+        </a>
       </div>
       <div class="column3">
         <a href="https://git.etherealvisions.us/mathus13/gvevents">

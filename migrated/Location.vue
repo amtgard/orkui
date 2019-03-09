@@ -16,7 +16,7 @@
         <div class="list-group-item" v-for="loc in locations">
           <div class="list-group-item-heading">
             {{ loc.name }}
-            <a href="#" class="pull-right" v-on:click="setLocation(loc)">
+            <a href="#" class="pull-right" @click="setLocation(loc)">
               <span class="glyphicon glyphicon-pencil"></span>
             </a>
           </div>
@@ -26,7 +26,9 @@
                 <address>{{ loc.address }}</address>
               </li>
               <li v-if="loc.url">
-                <a target="_blank" :href="loc.url">Website</a>
+                <a target="_blank" :href="loc.url">
+                  Website
+                </a>
               </li>
             </ul>
           </div>
@@ -42,6 +44,10 @@ import { LocationsTable } from '/collections/LocationsTable'
 import { CabinsTable } from '/collections/CabinsTable'
 import Cabin from '/imports/ui/Cabin'
 export default {
+  components: {
+    'vue-form-generator': veuForms.component,
+    Cabin
+  },
   data() {
     return {
       location: {
@@ -89,10 +95,6 @@ export default {
         ]
       }
     }
-  },
-  components: {
-    'vue-form-generator': veuForms.component,
-    Cabin
   },
   meteor: {
     locations() {

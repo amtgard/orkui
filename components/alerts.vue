@@ -13,10 +13,7 @@
         aria-label="Close"
         @click="clearAlert(alert)"
       >
-        <span
-          class="glyphicon glyphicon glyphicon-remove" 
-          aria-hidden="true"
-        />
+        <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true" />
       </button>
       <span class="badge pull-right">
         {{ alert.timestamp }}

@@ -2,14 +2,14 @@ import Kingdoms from '~/services/api/kingdom'
 import PubSub from 'pubsub-js'
 import Collection from 'lodash/collection'
 
-const state = () => {
+export const state = () => {
   return {
     kingdoms: [],
     activeKingdom: null
   }
 }
 
-const getters = {
+export const getters = {
   getKingdoms() {
     return state.kingdoms
   },
@@ -28,7 +28,7 @@ const getters = {
   }
 }
 
-const actions = {
+export const actions = {
   getKingdoms(context) {
     let local = localStorage.getItem('kingdoms')
     if (local && local.length > 0) {
@@ -58,7 +58,7 @@ const actions = {
   }
 }
 
-const mutations = {
+export const mutations = {
   SET_KINGDOMS(state, kingdoms) {
     localStorage.setItem('kingdoms', JSON.stringify(kingdoms))
     state.kingdoms = kingdoms
@@ -66,11 +66,4 @@ const mutations = {
   SET_ACTIVE(state, kingdom) {
     state.activeKingdom = kingdom
   }
-}
-
-export default {
-  state: state,
-  actions: actions,
-  getters: getters,
-  mutations: mutations
 }
