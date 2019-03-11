@@ -54,7 +54,7 @@
         <button
           class="btn btn-default btn-xs"
           title="Load Players"
-          @click="loadPLayers"
+          @click="loadPlayers"
         >
           <span class="glyphicon glyphicon-retweet" />
         </button>
@@ -80,6 +80,7 @@
       <div v-if="showPlayers" id="park-players-active">
         <div
           v-for="player in activePlayers"
+          :key="player.PlayerId"
           class="list-group-item"
           @click="setPlayer(player)"
         >
@@ -118,7 +119,7 @@
           </p>
           <table class="table table-striped">
             <tbody>
-              <tr v-for="officer in officers">
+              <tr v-for="officer in officers" :key="officer.OfficerRole">
                 <th>{{ officer.OfficerRole }}</th>
                 <td>{{ officer.Persona }}</td>
               </tr>
@@ -132,10 +133,6 @@
         :players="players"
         :park="park"
       />
-      <playerSearch v-if="view == 'search'" :park="park.ParkId" />
-      <Attendance v-if="view == 'attendance'" :park="park" />
-      <Player v-if="view == 'player'" :player="player" />
-      <UserForm v-if="view == 'addUser'" :park="park" />
     </div>
   </div>
   <div v-else>
@@ -162,14 +159,10 @@ export default {
   },
   data() {
     return {
-      players: [],
       player: null,
-      park: {},
-      parkShort: {},
       showAttendance: false,
       addUser: false,
       start: true,
-      officers: [],
       view: 'info',
       showPlayers: false
     }
@@ -187,6 +180,19 @@ export default {
       }
       return `https://amtgard.com/ork/assets/heraldry/park/${imageId}.jpg`
     },
+    park() {
+      return Collection.find(this.$store.state.parks.parks, {
+        ParkId: parseInt(this.$route.params.park)
+      })
+    },
+    officers() {
+      return Collection.filter(
+        this.$store.state.parks.officers,
+        {
+          ParkId: parseInt(this.park.ParkId)
+        }
+      )
+    },
     parkProp() {
       return {
         Name: this.park.ParkName,
@@ -194,11 +200,12 @@ export default {
         KingdomId: this.park.KingdomId
       }
     },
-    ...mapGetters({
-      user: 'getUser',
-      authorizations: 'getAuthorizations',
-      token: 'getToken'
-    }),
+    players() {
+      return this.$store.state.parks.players
+    },
+    authorizations() {
+      return this.$store.state.session.authorizations
+    },
     parkParam() {
       return this.$route.params.parkId
     },
@@ -206,76 +213,20 @@ export default {
       return Collection.filter(this.players, { Active: 1 })
     },
     kingdom() {
-      let kingdom = Collection.find(this.$store.getters.getKingdoms, {
+      return Collection.find(this.$store.state.kingdoms.kingdoms, {
         KingdomId: this.park.KingdomId
-      })
-      console.log('kingdom', this.park.KingdomId, kingdom)
-      return kingdom ? kingdom : {}
-    }
-  },
-  watch: {
-    $route() {
-      this.loadPark(this.$route.params.parkId)
+      }) || {}
     }
   },
   mounted() {
-    this.$subscribe('players', { ParkId: this.$route.params.parkId }, () => {
-      this.fetchPlayers()
-    })
     this.loadPark(this.$route.params.parkId)
-  },
-  created() {
-    this.$store.dispatch('getKingdoms')
-    this.loadPark(this.$route.params.parkId)
+    if (this.$store.state.kingdoms.kingdoms.length == 0) {
+      this.$store.dispatch('kingdoms/fetch')
+    }
   },
   methods: {
-    fetchPlayers() {
-      this.players = PlayersTable.find({ ParkId: this.park.ParkId }).fetch({
-        ParkId: this.park.ParkId
-      })
-    },
-    loadPark(parkId) {
-      Parks.getParkShort(parkId).then(resp => {
-        resp.data.ParkInfo.Location = JSON.parse(resp.data.ParkInfo.Location)
-        this.park = resp.data.ParkInfo ? resp.data.ParkInfo : {}
-        Parks.getPark(this.park.ParkId).then(resp => {
-          if (resp.data.Status.Error === 'Success') {
-            resp.data.mapUrl =
-              'https://www.google.com/maps/embed/v1/place?key=' +
-              this.mapKey +
-              '&q=' +
-              this.park.Address
-            resp.data.GoogleGeocode = JSON.parse(resp.data.GoogleGeocode)
-            resp.data.Location = JSON.parse(resp.data.Location)
-            this.parkShort = Object.assign(this.park)
-            let park = Object.assign(this.park, resp.data)
-            this.park = park
-            this.getOfficers()
-            this.fetchPlayers()
-          }
-        })
-      })
-      this.view = this.$route.params.view ? this.$route.params.view : 'info'
-    },
-    loadPLayers() {
-      Meteor.call('loadPlayers', this.park, this.token, (error, result) => {
-        this.fetchPlayers()
-      })
-    },
-    setPlayer(player) {
-      this.player = player
-      this.setView('player')
-    },
-    setView(view) {
-      this.view = view
-    },
-    getOfficers() {
-      Parks.getOfficers(this.park).then(resp => {
-        if (!resp.data.Officers) {
-          return
-        }
-        this.officers = resp.data.Officers
-      })
+    loadPark() {
+      this.$store.dispatch('parks/fetchPark', this.park.ParkId)
     },
     togglePlayers() {
       this.showPlayers = !this.showPlayers

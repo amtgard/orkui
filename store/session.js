@@ -22,6 +22,9 @@ export const actions = {
         commit('SET_AUTH', JSON.parse(localStorage.getItem('authorizations')))
         commit('SET_TIMEOUT', timeout.toISOString())
         commit('SET_TOKEN', localStorage.getItem('token'))
+        PubSub.publish('session.setToken', {
+          token: localStorage.getItem('token')
+        })
       }
     }
   },

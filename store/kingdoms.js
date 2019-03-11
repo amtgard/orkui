@@ -30,9 +30,11 @@ export const getters = {
 
 export const actions = {
   getKingdoms(context) {
+    return actions.fetch(context)
+  },
+  fetch(context) {
     let local = localStorage.getItem('kingdoms')
     if (local && local.length > 0) {
-      console.log('Using saved kingdom list')
       context.commit('SET_KINGDOMS', JSON.parse(local))
       return
     }

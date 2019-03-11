@@ -10,7 +10,7 @@
       <div v-else class=" heraldryBox" />
     </div>
     <div class="resultData">
-      <nuxt-link :to="{ name: 'Park', params: { parkId: park.ParkId } }">
+      <nuxt-link :to="`/parks/${park.ParkId}`">
         <p class="h3">
           {{ park.Name }}
         </p>

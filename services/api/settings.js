@@ -3,9 +3,11 @@ import PubSub from 'pubsub-js'
 import qs from 'qs'
 
 let baseurl = process.env.ORK_URL
+let token = null
 export const apiurl = baseurl + 'Json/'
 export const searchurl = baseurl + 'Search/SearchService.php'
 export let request = function(config) {
+  config.params.request.Token = token
   config = Object.assign(
     {
       url: apiurl,
@@ -31,3 +33,10 @@ export let request = function(config) {
   })
   return req
 }
+PubSub.subscribe('session.authenticated', (name, data) => {
+  token = data.token
+})
+PubSub.subscribe('session.setToken', (name, data) => {
+  console.log('setting token', data)
+  token = data.token
+})

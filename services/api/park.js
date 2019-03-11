@@ -1,7 +1,9 @@
 import { request } from './settings'
 // import PubSub from 'pubsub-js'
 import moment from 'moment'
+import Vue from 'vue'
 import _ from 'lodash'
+
 export default {
   getParkShort(id) {
     return request({
@@ -45,7 +47,7 @@ export default {
       }
     })
   },
-  getPlayers(park, token) {
+  getPlayers(park) {
     if (!park || !park.ParkId) {
       console.error('Invalid park passed', park)
     }

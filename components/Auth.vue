@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch('authenticate', {
+      this.$store.dispatch('session/authenticate', {
         user: this.username,
         pass: this.password
       })

@@ -1,139 +1,113 @@
 <template>
   <div v-if="park">
     <div class="title text-left">
-      <nuxt-link :to="{ name: 'Parks', params: { kingdomId: park.KingdomId } }">
-        <span class="h2">
-          {{ kingdom.KingdomName }}
-        </span>
+      <nuxt-link :to="`/kingdoms/${park.KingdomId}`">
+        <span class="h2">{{ kingdom.KingdomName }}</span>
       </nuxt-link>
-      <span class="glyphicon glyphicon-arrow-right"></span>
-      <span class="h1">
-        {{ park.ParkName }}
-      </span>
+      <span class="glyphicon glyphicon-arrow-right">/</span>
+      <span class="h2">{{ park.ParkName }}</span>
     </div>
-    <div class="col-md-3 col-lg-2 list-group userList">
-      <nuxt-link
-        :to="{ name: 'Park', params: { parkId: park.ParkId, view: 'info' } }"
-        class="list-group-item"
-      >
-        View Park
-      </nuxt-link>
-      <nuxt-link
-        :to="{ name: 'Park', params: { parkId: park.ParkId, view: 'addUser' } }"
-        class="list-group-item"
-      >
-        Create Player
-      </nuxt-link>
-      <nuxt-link
-        :to="{ name: 'Park', params: { parkId: park.ParkId, view: 'search' } }"
-        class="list-group-item"
-      >
-        Search Players
-      </nuxt-link>
-      <nuxt-link
-        :to="{
-          name: 'Park',
-          params: { parkId: park.ParkId, view: 'attendance' }
-        }"
-        class="list-group-item"
-      >
-        Attendance
-      </nuxt-link>
-      <nuxt-link
-        :to="{
-          name: 'Park',
-          params: { parkId: park.ParkId, view: 'activity' }
-        }"
-        class="list-group-item"
-      >
-        Activity Report
-      </nuxt-link>
-      <div class="list-group-item">
-        <button
-          @click="loadPLayers"
-          class="btn btn-default btn-xs"
-          title="Load Players"
-        >
-          <span class="glyphicon glyphicon-retweet"></span>
-        </button>
-        <div class="pull-right">
-          <button
-            v-if="activePlayers.length > 0"
-            @click="togglePlayers"
-            class="btn btn-default btn-xs"
-            title="Toggle Players"
-          >
-            <span
-              class="glyphicon"
-              :class="
-                showPlayers ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'
-              "
-            ></span>
-          </button>
-        </div>
-        <span @click="togglePlayers">
-          Active Players
-        </span>
-      </div>
-      <div v-if="showPlayers" id="park-players-active">
-        <div
-          @click="setPlayer(player)"
-          v-for="player in activePlayers"
-          :key="player.PlayerId"
+    <div class="tow-column-nav">
+      <div class="list-group userList">
+        <nuxt-link
+          :to="{ name: 'Park', params: { parkId: park.ParkId, view: 'info' } }"
           class="list-group-item"
-        >
-          <span class="h5">
-            {{ player.Persona }}
-          </span>
-          <ul class="text-muted">
-            <li class="list-unstyled">
-              <small>Dues Paid {{ player.DuesPaid ? 'True' : 'False' }}</small>
-            </li>
-            <li class="list-unstyled">
-              <small>Park Days {{ player.ParkDaysAttended }}</small>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-9 col-lg-10">
-      <div v-if="view == 'info'">
-        <playerSearch :park="park.ParkId"></playerSearch>
-        <div class="col-md-7 panel panel-default panel-body text-left">
-          <div v-if="park.HasHeraldry" class="col-sm-2 pull-left">
-            <img :src="heraldryUrl" class="img-responsive img-rounded" />
+        >View Park</nuxt-link>
+        <nuxt-link
+          :to="{ name: 'Park', params: { parkId: park.ParkId, view: 'addUser' } }"
+          class="list-group-item"
+        >Create Player</nuxt-link>
+        <nuxt-link
+          :to="{ name: 'Park', params: { parkId: park.ParkId, view: 'search' } }"
+          class="list-group-item"
+        >Search Players</nuxt-link>
+        <nuxt-link
+          :to="{
+            name: 'Park',
+            params: { parkId: park.ParkId, view: 'attendance' }
+          }"
+          class="list-group-item"
+        >Attendance</nuxt-link>
+        <nuxt-link
+          :to="{
+            name: 'Park',
+            params: { parkId: park.ParkId, view: 'activity' }
+          }"
+          class="list-group-item"
+        >Activity Report</nuxt-link>
+        <div class="list-group-item">
+          <button @click="loadPLayers" class="btn btn-default btn-xs" title="Load Players">
+            <span class="glyphicon glyphicon-retweet"></span>
+          </button>
+          <div class="pull-right">
+            <button
+              v-if="activePlayers.length > 0"
+              @click="togglePlayers"
+              class="btn btn-default btn-xs"
+              title="Toggle Players"
+            >
+              <span
+                class="glyphicon"
+                :class="
+                  showPlayers ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'
+                "
+              ></span>
+            </button>
           </div>
-          <p v-html="park.Description"></p>
-          <p v-html="park.Directions"></p>
-          <p v-if="park.Url">
-            <a :href="park.Url" target="_blank">
-              Website
-            </a>
-          </p>
-          <p v-if="park.MapUrl">
-            <a :href="park.MapUrl" target="_blank">
-              Google Map
-            </a>
-          </p>
-          <table class="table table-striped">
-            <tbody>
-              <tr v-for="officer in officers" :key="officer.OfficerRole">
-                <th>{{ officer.OfficerRole }}</th>
-                <td>{{ officer.Persona }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <span @click="togglePlayers">Active Players</span>
+        </div>
+        <div v-if="showPlayers" id="park-players-active">
+          <div
+            @click="setPlayer(player)"
+            v-for="player in activePlayers"
+            :key="player.PlayerId"
+            class="list-group-item"
+          >
+            <span class="h5">{{ player.Persona }}</span>
+            <ul class="text-muted">
+              <li class="list-unstyled">
+                <small>Dues Paid {{ player.DuesPaid ? 'True' : 'False' }}</small>
+              </li>
+              <li class="list-unstyled">
+                <small>Park Days {{ player.ParkDaysAttended }}</small>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <playerSearch v-if="view == 'search'" :park="park.ParkId"></playerSearch>
-      <Attendance v-if="view == 'attendance'" :park="park"></Attendance>
-      <Player v-if="view == 'player'" :player="player"></Player>
-      <UserForm v-if="view == 'addUser'" :park="park"></UserForm>
+      <div class="">
+        <div v-if="view == 'info'">
+          <playerSearch :park="park.ParkId"></playerSearch>
+          <div class="col-md-7 panel panel-default panel-body text-left">
+            <div v-if="park.HasHeraldry" class="col-sm-2 pull-left">
+              <img :src="heraldryUrl" class="img-responsive img-rounded">
+            </div>
+            <p v-html="park.Description"></p>
+            <p v-html="park.Directions"></p>
+            <p v-if="park.Url">
+              <a :href="park.Url" target="_blank">Website</a>
+            </p>
+            <p v-if="park.MapUrl">
+              <a :href="park.MapUrl" target="_blank">Google Map</a>
+            </p>
+            <table class="table table-striped">
+              <tbody>
+                <tr v-for="officer in officers" :key="officer.OfficerRole">
+                  <th>{{ officer.OfficerRole }}</th>
+                  <td>{{ officer.Persona }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <playerSearch v-if="view == 'search'" :park="park"></playerSearch>
+        <Attendance v-if="view == 'attendance'" :park="park"></Attendance>
+        <Player v-if="view == 'player'" :player="player"></Player>
+        <UserForm v-if="view == 'addUser'" :park="park"></UserForm>
+      </div>
     </div>
   </div>
-  <div v-else>
-    no park
-  </div>
+  <div v-else>no park</div>
 </template>
 <script>
 import Parks from '~/services/api/park'
@@ -154,14 +128,10 @@ export default {
   },
   data() {
     return {
-      players: [],
       player: null,
-      park: {},
-      parkShort: {},
       showAttendance: false,
       addUser: false,
       start: true,
-      officers: [],
       view: 'info',
       showPlayers: false
     }
@@ -179,6 +149,16 @@ export default {
       }
       return `https://amtgard.com/ork/assets/heraldry/park/${imageId}.jpg`
     },
+    park() {
+      return Collection.find(this.$store.state.parks.parks, {
+        ParkId: parseInt(this.$route.params.park)
+      })
+    },
+    officers() {
+      return Collection.filter(this.$store.state.parks.officers, {
+        ParkId: parseInt(this.park.ParkId)
+      })
+    },
     parkProp() {
       return {
         Name: this.park.ParkName,
@@ -186,23 +166,24 @@ export default {
         KingdomId: this.park.KingdomId
       }
     },
-    ...mapGetters({
-      user: 'getUser',
-      authorizations: 'getAuthorizations',
-      token: 'getToken'
-    }),
+    players() {
+      return this.$store.state.parks.players
+    },
+    authorizations() {
+      return this.$store.state.session.authorizations
+    },
     parkParam() {
       return this.$route.params.parkId
     },
     activePlayers() {
-      return Collection.filter(this.players, { Active: 1 })
+      return Collection.filter(this.players, { Displayable: true })
     },
     kingdom() {
-      let kingdom = Collection.find(this.$store.getters.getKingdoms, {
-        KingdomId: this.park.KingdomId
-      })
-      console.log('kingdom', this.park.KingdomId, kingdom)
-      return kingdom ? kingdom : {}
+      return (
+        Collection.find(this.$store.state.kingdoms.kingdoms, {
+          KingdomId: this.park.KingdomId
+        }) || {}
+      )
     }
   },
   watch: {
@@ -211,64 +192,20 @@ export default {
     }
   },
   mounted() {
-    this.$subscribe('players', { ParkId: this.$route.params.parkId }, () => {
-      this.fetchPlayers()
-    })
     this.loadPark(this.$route.params.parkId)
-  },
-  created() {
-    this.$store.dispatch('getKingdoms')
-    this.loadPark(this.$route.params.parkId)
+    if (this.$store.state.kingdoms.kingdoms.length == 0) {
+      this.$store.dispatch('kingdoms/fetch')
+    }
   },
   methods: {
-    fetchPlayers() {
-      //this.players = PlayersTable.find({ParkId: this.park.ParkId}).fetch({ParkId: this.park.ParkId})
-    },
-    loadPark(parkId) {
-      Parks.getParkShort(parkId).then(resp => {
-        resp.data.ParkInfo.Location = JSON.parse(resp.data.ParkInfo.Location)
-        this.park = resp.data.ParkInfo ? resp.data.ParkInfo : {}
-        Parks.getPark(this.park.ParkId).then(resp => {
-          if (resp.data.Status.Error === 'Success') {
-            resp.data.mapUrl =
-              'https://www.google.com/maps/embed/v1/place?key=' +
-              this.mapKey +
-              '&q=' +
-              this.park.Address
-            resp.data.GoogleGeocode = JSON.parse(resp.data.GoogleGeocode)
-            resp.data.Location = JSON.parse(resp.data.Location)
-            this.parkShort = Object.assign(this.park)
-            let park = Object.assign(this.park, resp.data)
-            this.park = park
-            this.getOfficers()
-            this.fetchPlayers()
-          }
-        })
-      })
-      this.view = this.$route.params.view ? this.$route.params.view : 'info'
-    },
-    loadPLayers() {
-      Meteor.call('loadPlayers', this.park, this.token, (error, result) => {
-        this.fetchPlayers()
-      })
-    },
-    setPlayer(player) {
-      this.player = player
-      this.setView('player')
-    },
-    setView(view) {
-      this.view = view
-    },
-    getOfficers() {
-      Parks.getOfficers(this.park).then(resp => {
-        if (!resp.data.Officers) {
-          return
-        }
-        this.officers = resp.data.Officers
-      })
+    loadPark() {
+      this.$store.dispatch('parks/fetchPark', this.$route.params.park)
     },
     togglePlayers() {
       this.showPlayers = !this.showPlayers
+    },
+    loadPLayers() {
+      this.$store.dispatch('parks/fetchPlayers', this.park)
     }
   }
 }
@@ -277,5 +214,10 @@ export default {
 .userList {
   max-height: 80vh;
   overflow: auto;
+}
+.tow-column-nav {
+  display: grid;
+  grid-template-columns: 30% 65%;
+  grid-column-gap: 5%;
 }
 </style>

@@ -36,14 +36,8 @@
         </a>
       </div>
       <div class="column2">
-        <a href="https://etherealvisions.us/">
-          Shawn Barratt
-        </a>
       </div>
       <div class="column3">
-        <a href="https://git.etherealvisions.us/mathus13/gvevents">
-          <img src="/images/gitlab.svg" alt="" />
-        </a>
       </div>
     </footer>
   </div>
@@ -54,7 +48,6 @@ import Moment from 'moment'
 import PubSub from 'pubsub-js'
 import AuthComp from '~/components/Auth'
 import Alerts from '~/components/alerts'
-import { mapGetters } from 'vuex'
 export default {
   components: {
     Alerts: Alerts,
@@ -134,7 +127,30 @@ nav {
   padding: 0 16px 0 24px;
   background-color: #35495e;
   background-color: #db92c0;
-  color: #ffffff;
+  border: 0;
+  a {
+    color: #f5f5f5;
+    padding-top: none;
+  }
+  .navbar-brand {
+    padding-top: none;
+  }
+  .navbar-nav {
+    display: grid;
+    grid-auto-flow: column;
+    padding-top: none;
+    li {
+      padding: 0 10px;
+      a {
+        color: #f5f5f5;
+        font-weight: 600;
+        font-size: 12pt;
+      }
+      a::hover {
+        color: #3d2333;
+      }
+    }
+  }
   span {
     display: block;
     position: relative;
@@ -143,29 +159,7 @@ nav {
     letter-spacing: 0.02em;
     font-weight: 400;
     box-sizing: border-box;
-    padding-top: 16px;
-  }
-  a {
-    color: #fff;
-  }
-  .navbar-default {
-    background-color: inherit;
-    border: 0;
-    color: #f5f5f5;
-    .navbar-brand {
-      color: #fff;
-    }
-    .navbar-nav {
-      li {
-        a {
-          color: #f5f5f5;
-          color: #3d2333;
-        }
-      }
-    }
-  }
-  #nav-links {
-    z-index: 90000;
+    padding-top: 5px;
   }
   .navitar {
     width: 35px;
