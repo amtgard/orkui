@@ -48,6 +48,10 @@ import Moment from 'moment'
 import PubSub from 'pubsub-js'
 import AuthComp from '~/components/Auth'
 import Alerts from '~/components/alerts'
+import Vue from 'vue'
+import BootstrapVue from 'bootstrap-vue'
+
+Vue.use(BootstrapVue)
 export default {
   components: {
     Alerts: Alerts,
@@ -89,7 +93,7 @@ $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap/scss/bootstrap';
 
 .app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -201,6 +205,13 @@ footer a {
 .heraldry {
   max-height: 100px;
   max-width: 120px;
+}
+.image-rounded {
+  border-radius: 2%;
+}
+
+.img-circle {
+  border-radius: 50%;
 }
 
 @media (max-width: 1050px) {

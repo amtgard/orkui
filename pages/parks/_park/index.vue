@@ -78,26 +78,30 @@
       <div class="">
         <div v-if="view == 'info'">
           <playerSearch :park="park.ParkId"></playerSearch>
-          <div class="col-md-7 panel panel-default panel-body text-left">
-            <div v-if="park.HasHeraldry" class="col-sm-2 pull-left">
-              <img :src="heraldryUrl" class="img-responsive img-rounded">
+          <div class="panel panel-default panel-body text-left">
+            <div class="tow-column-nav">
+              <div v-if="park.HasHeraldry">
+                <img :src="heraldryUrl" class="img-fluid img-rounded">
+              </div>
+              <div>
+                <p v-html="park.Description"></p>
+                <p v-html="park.Directions"></p>
+                <p v-if="park.Url">
+                  <a :href="park.Url" target="_blank">Website</a>
+                </p>
+                <p v-if="park.MapUrl">
+                  <a :href="park.MapUrl" target="_blank">Google Map</a>
+                </p>
+                <table class="table table-striped">
+                  <tbody>
+                    <tr v-for="officer in officers" :key="officer.OfficerRole">
+                      <th>{{ officer.OfficerRole }}</th>
+                      <td>{{ officer.Persona }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <p v-html="park.Description"></p>
-            <p v-html="park.Directions"></p>
-            <p v-if="park.Url">
-              <a :href="park.Url" target="_blank">Website</a>
-            </p>
-            <p v-if="park.MapUrl">
-              <a :href="park.MapUrl" target="_blank">Google Map</a>
-            </p>
-            <table class="table table-striped">
-              <tbody>
-                <tr v-for="officer in officers" :key="officer.OfficerRole">
-                  <th>{{ officer.OfficerRole }}</th>
-                  <td>{{ officer.Persona }}</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
         <playerSearch v-if="view == 'search'" :park="park"></playerSearch>
@@ -188,11 +192,11 @@ export default {
   },
   watch: {
     $route() {
-      this.loadPark(this.$route.params.parkId)
+      this.loadPark(this.$route.params.park)
     }
   },
   mounted() {
-    this.loadPark(this.$route.params.parkId)
+    this.loadPark(this.$route.params.park)
     if (this.$store.state.kingdoms.kingdoms.length == 0) {
       this.$store.dispatch('kingdoms/fetch')
     }
@@ -210,14 +214,17 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
+// Bootstrap
+@import 'node_modules/bootstrap/scss/bootstrap';
+
 .userList {
   max-height: 80vh;
   overflow: auto;
 }
 .tow-column-nav {
   display: grid;
-  grid-template-columns: 30% 65%;
+  grid-template-columns: 20% 75%;
   grid-column-gap: 5%;
 }
 </style>
