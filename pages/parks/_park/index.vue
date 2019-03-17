@@ -9,32 +9,11 @@
     </div>
     <div class="tow-column-nav">
       <div class="list-group userList">
-        <nuxt-link
-          :to="{ name: 'Park', params: { parkId: park.ParkId, view: 'info' } }"
-          class="list-group-item"
-        >View Park</nuxt-link>
-        <nuxt-link
-          :to="{ name: 'Park', params: { parkId: park.ParkId, view: 'addUser' } }"
-          class="list-group-item"
-        >Create Player</nuxt-link>
-        <nuxt-link
-          :to="{ name: 'Park', params: { parkId: park.ParkId, view: 'search' } }"
-          class="list-group-item"
-        >Search Players</nuxt-link>
-        <nuxt-link
-          :to="{
-            name: 'Park',
-            params: { parkId: park.ParkId, view: 'attendance' }
-          }"
-          class="list-group-item"
-        >Attendance</nuxt-link>
-        <nuxt-link
-          :to="{
-            name: 'Park',
-            params: { parkId: park.ParkId, view: 'activity' }
-          }"
-          class="list-group-item"
-        >Activity Report</nuxt-link>
+        <button @click="setView('info')" class="list-group-item">View Park</button>
+        <button @click="setView('addUser')" class="list-group-item">Create Player</button>
+        <button @click="setView('search')" class="list-group-item">Search Players</button>
+        <button @click="setView('attendance')" class="list-group-item">Attendance</button>
+        <button @click="setView('activity')" class="list-group-item">Activity Report</button>
         <div class="list-group-item">
           <button @click="loadPLayers" class="btn btn-default btn-xs" title="Load Players">
             <span class="glyphicon glyphicon-retweet"></span>
@@ -210,6 +189,9 @@ export default {
     },
     loadPLayers() {
       this.$store.dispatch('parks/fetchPlayers', this.park)
+    },
+    setView(view) {
+      this.view = view
     }
   }
 }
