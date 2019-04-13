@@ -6,20 +6,14 @@
         class="img-responsive img-rounded heraldry"
         :src="getHeraldyUrl()"
         @error="imageLoadError"
-      />
-      <div v-else class=" heraldryBox" />
+      >
+      <div v-else class="heraldryBox"/>
     </div>
     <div class="resultData">
-      <nuxt-link
-        :to="`kingdoms/${kingdom.KingdomId}`"
-      >
-        <p class="h3">
-          {{ kingdom.Name ? kingdom.Name : kingdom.KingdomName }}
-        </p>
+      <nuxt-link :to="`kingdoms/${kingdom.KingdomId}`">
+        <p class="h3">{{ kingdom.Name ? kingdom.Name : kingdom.KingdomName }}</p>
       </nuxt-link>
-      <p class="text-muted">
-        Kingdom
-      </p>
+      <p class="text-muted">Kingdom</p>
     </div>
   </div>
 </template>
@@ -52,3 +46,19 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.searchRow {
+  display: grid;
+  grid-template-columns: 25% 70%;
+  grid-auto-flow: column;
+  .avatarContainer {
+    width: 100%;
+    height: 100%;
+    img {
+      height: 100%;
+      width: auto;
+    }
+  }
+}
+</style>

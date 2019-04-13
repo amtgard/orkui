@@ -107,11 +107,21 @@ $line-height-base: 1.6;
   label {
     color: #281722;
   }
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 40px auto 80px;
-  grid-auto-flow: row;
-  grid-row-gap: 1em;
+}
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.75rem 1rem;
+  /* margin-bottom: 1rem; */
+  list-style: none;
+  background-color: #fdfdfd;
+  border-radius: 0.25rem;
+  width: 98vw;
+  margin: 0 -10px;
+  span.h2 {
+    font-size: 14pt !important;
+    margin: 0 1em;
+  }
 }
 
 #app_content {
@@ -172,7 +182,7 @@ nav {
 footer {
   grid-row: 3;
   align-items: stretch;
-  display: grid;
+  display: none;
   grid-template-columns: 33% 33% 33%;
   background: #f8f8f8;
 }
@@ -263,8 +273,27 @@ footer a {
   }
   .two-column {
     display: grid;
-    grid-template-columns: 90vw;
+    grid-template-columns: 90%;
     justify-content: center;
+    vertical-align: top;
   }
+}
+.pull-right {
+  float: right;
+}
+.pull-left {
+  float: left;
+}
+.avatarContainer {
+  height: 50px;
+  width: 50px;
+}
+form {
+  max-width: 90%;
+}
+div.content {
+  background-color: #fff;
+  padding: 2.5rem;
+  border-radius: 10px;
 }
 </style>

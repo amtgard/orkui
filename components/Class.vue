@@ -29,8 +29,11 @@ export default {
     }
   },
   data() {
-    return {
-      classes: []
+    return {}
+  },
+  computed: {
+    classes() {
+      return this.player.classes
     }
   },
   watch: {
@@ -59,11 +62,7 @@ export default {
           return 6
       }
     },
-    getClasses() {
-      Players.getClasses(this.player).then(resp => {
-        this.classes = resp.data.Classes
-      })
-    }
+    getClasses() {}
   }
 }
 </script>

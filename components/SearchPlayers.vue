@@ -40,20 +40,6 @@
 <script>
 import search from '../services/api/search'
 export default {
-  props: {
-    park: {
-      type: Object,
-      default() {
-        return {}
-      }
-    },
-    kingdom: {
-      type: Object,
-      default() {
-        return {}
-      }
-    }
-  },
   data() {
     return {
       players: [],

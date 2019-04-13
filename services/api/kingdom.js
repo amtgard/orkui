@@ -4,7 +4,7 @@ export default {
     return request({
       params: {
         call: 'Kingdom/GetKingdoms',
-        request: ''
+        request: {}
       }
     })
   },

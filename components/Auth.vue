@@ -106,11 +106,18 @@ export default {
   position: absolute;
   z-index: 9000;
   display: block !important;
+  background: white;
+  padding: 5px;
+  border: 1px grey solid;
+  border-radius: 10px;
+  right: 10px;
+  width: 300px;
+  top: 53px;
 }
 .dropdown-menu.pop-display {
   position: relative;
   top: 100%;
-  left: calc(100% - 10rem);
+  left: calc(100% - 20rem);
   z-index: 9000;
   float: left;
   min-width: 10rem;

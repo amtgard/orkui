@@ -41,6 +41,7 @@ export const actions = {
     Kingdoms.fetch().then(resp => {
       if (resp.data.Kingdoms) {
         let kingdoms = []
+        let i
         for (i in resp.data.Kingdoms) {
           kingdoms.push(resp.data.Kingdoms[i])
         }
@@ -55,6 +56,11 @@ export const actions = {
       }
     })
   },
+  fetchKingdom(context, kingdomId) {
+    Kingdoms.detail(kingdomId).then(resp => {
+      context.commit('UPDATE', resp.data.KingdomInfo)
+    })
+  },
   setActive(context, kingdom) {
     context.commit('SET_ACTIVE', kingdom)
   }
@@ -66,6 +72,15 @@ export const mutations = {
     state.kingdoms = kingdoms
   },
   SET_ACTIVE(state, kingdom) {
+    state.activeKingdom = kingdom
+  },
+  UPDATE(state, kingdom) {
+    let cur = Collection.find(state.kingdoms, { KingdomId: kingdom.KingdomId })
+    if (cur) {
+      cur = kingdom
+    } else {
+      state.kingdoms.push(kingdom)
+    }
     state.activeKingdom = kingdom
   }
 }

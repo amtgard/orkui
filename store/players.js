@@ -11,13 +11,18 @@ export const state = () => {
 
 export const actions = {
   fetchPlayer(context, player) {
-    context.commit('SET_PLAYER', player)
-    Players.getPlayer(player, token).then(resp => {
+    player = Object.assign({}, player)
+    Players.getPlayer(player).then(resp => {
       player = Object.assign(player, resp.data.Player)
-      context.commit('SET_PLAYER', player)
-      Players.getNotes(player, token).then(resp => {
+      Players.getNotes(player).then(resp => {
         player.Notes = resp.data.Result
-        context.commit('SET_PLAYER', player)
+        Players.getAwards(player).then(resp => {
+          player.awards = resp.data.Awards
+          Players.getClasses(player).then(resp => {
+            player.classes = resp.data.Classes
+            context.commit('SET_PLAYER', player)
+          })
+        })
       })
     })
   }

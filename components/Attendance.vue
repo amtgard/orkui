@@ -6,8 +6,8 @@
         Reload
       </button>
     </div>
-    <div class="panel-body">
-      <div class="col-md-6 text-left">
+    <div class="panel-body two-column">
+      <div class="text-left two-column">
         <div class="form-group">
           <label for="Date">
             Date
@@ -63,18 +63,20 @@
           </button>
         </div>
       </div>
-      <div class="col-md-6 list-group">
+      <div class="list-group">
         <div>{{ date }}</div>
         <div v-for="item in attendance" :key="item.id" class="list-group-item">
-          <button class="btn btn-xs pull-right" @click="edit(item)">
-            <span class="glyphicon glyphicon-pencil"></span>
-          </button>
-          <button
-            class="btn btn-xs btn-danger pull-right"
-            @click="removeAttendance(item.id)"
-          >
-            <span class="glyphicon glyphicon-remove"></span>
-          </button>
+          <div class="pull-right">
+            <button class="btn btn-xs" @click="edit(item)">
+              <span class="glyphicon glyphicon-pencil">Edit</span>
+            </button>
+            <button
+              class="btn btn-xs btn-danger"
+              @click="removeAttendance(item.id)"
+            >
+              <span class="glyphicon glyphicon-remove">Del</span>
+            </button>
+          </div>
           <p>
             {{ item.Persona }}
             <span class="text-muted">

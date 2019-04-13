@@ -1,6 +1,6 @@
 <template>
   <div v-if="park">
-    <div class="title text-left">
+    <div class="title text-left breadcrumb">
       <nuxt-link :to="`/kingdoms/${park.KingdomId}`">
         <span class="h2">{{ kingdom.KingdomName }}</span>
       </nuxt-link>
@@ -13,36 +13,34 @@
         <button @click="setView('addUser')" class="list-group-item">Create Player</button>
         <button @click="setView('search')" class="list-group-item">Search Players</button>
         <button @click="setView('attendance')" class="list-group-item">Attendance</button>
-        <button @click="setView('activity')" class="list-group-item">Activity Report</button>
-        <div class="list-group-item">
+        <button @click="setView('treasury')" class="list-group-item">Treasury</button>
+        <button @click="setView('awards')" class="list-group-item">Enter Awards</button>
+        <div v-if="players.length > 0" class="list-group-item">
           <button @click="loadPLayers" class="btn btn-default btn-xs" title="Load Players">
             <span class="glyphicon glyphicon-retweet"></span>
           </button>
           <div class="pull-right">
-            <button
-              v-if="activePlayers.length > 0"
-              @click="togglePlayers"
-              class="btn btn-default btn-xs"
-              title="Toggle Players"
-            >
+            <button @click="togglePlayers" class="btn btn-default btn-xs" title="Toggle Players">
               <span
                 class="glyphicon"
                 :class="
                   showPlayers ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'
                 "
-              ></span>
+              >{{ showPlayers ? 'Hide' : 'Show' }}</span>
             </button>
           </div>
           <span @click="togglePlayers">Active Players</span>
         </div>
         <div v-if="showPlayers" id="park-players-active">
-          <div
-            @click="setPlayer(player)"
-            v-for="player in activePlayers"
-            :key="player.PlayerId"
-            class="list-group-item"
-          >
-            <span class="h5">{{ player.Persona }}</span>
+          <div class="list-group-item form-group">
+            <label for="filter" class="sr-only">Filter</label>
+            <input v-model="filter" placeholder="Filter" class="form-control">
+          </div>
+          <div v-for="player in activePlayers" :key="player.MundaneId" class="list-group-item">
+            <nuxt-link
+              :to="`/parks/${park.ParkId}/players/${player.MundaneId}`"
+              class="h5"
+            >{{ player.Persona }}</nuxt-link>
             <ul class="text-muted">
               <li class="list-unstyled">
                 <small>Dues Paid {{ player.DuesPaid ? 'True' : 'False' }}</small>
@@ -54,7 +52,7 @@
           </div>
         </div>
       </div>
-      <div class="">
+      <div class="content">
         <div v-if="view == 'info'">
           <playerSearch :park="park.ParkId"></playerSearch>
           <div class="panel panel-default panel-body text-left">
@@ -75,7 +73,11 @@
                   <tbody>
                     <tr v-for="officer in officers" :key="officer.OfficerRole">
                       <th>{{ officer.OfficerRole }}</th>
-                      <td>{{ officer.Persona }}</td>
+                      <td>
+                        <nuxt-link :to="`/parks/${park.ParkId}/players/${officer.MundaneId}`">
+                          {{ officer.Persona }}
+                        </nuxt-link>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -116,7 +118,8 @@ export default {
       addUser: false,
       start: true,
       view: 'info',
-      showPlayers: false
+      showPlayers: false,
+      filter: ''
     }
   },
   computed: {
@@ -159,7 +162,12 @@ export default {
       return this.$route.params.parkId
     },
     activePlayers() {
-      return Collection.filter(this.players, { Displayable: true })
+      return Collection.filter(this.players, player => {
+        return (
+          player.Displayable == true &&
+          player.Persona.toLowerCase().indexOf(this.filter.toLowerCase()) > -1
+        )
+      })
     },
     kingdom() {
       return (
@@ -198,15 +206,18 @@ export default {
 </script>
 <style lang="scss">
 // Bootstrap
-@import 'node_modules/bootstrap/scss/bootstrap';
-
+// @import 'node_modules/bootstrap/scss/bootstrap';
+button.list-group-item {
+  cursor: pointer;
+}
 .userList {
   max-height: 80vh;
   overflow: auto;
+  margin-left: -15px;
 }
 .tow-column-nav {
   display: grid;
   grid-template-columns: 20% 75%;
-  grid-column-gap: 5%;
+  grid-column-gap: 2.4em;
 }
 </style>

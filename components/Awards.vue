@@ -42,11 +42,12 @@ export default {
     }
   },
   data() {
-    return {
-      awards: []
-    }
+    return {}
   },
   computed: {
+    awards() {
+      return this.user.awards
+    },
     byDate() {
       return Collection.sortBy(this.awards, ['Date'])
     },
@@ -79,11 +80,7 @@ export default {
           break
       }
     },
-    getAwards() {
-      Players.getAwards(this.user).then(resp => {
-        this.awards = resp.data.Awards
-      })
-    },
+    getAwards() {},
     setOrder(rank) {
       if (!rank) {
         return ''
